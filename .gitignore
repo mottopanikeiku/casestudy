@@ -9,3 +9,9 @@ Plan
 # Local secrets
 .env
 .env.*
+
+# Python server and local tooling artifacts
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
