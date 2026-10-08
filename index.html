@@ -690,16 +690,13 @@ const CONFIG = {
   temps: { rationale: 0.5, objections: 0.3, scripts: 0.7, weekPlan: 0.6 },
   // Recency is measured from this snapshot date so the ranking is reproducible.
   asOfDate: "2026-03-22",
-  dataSources: "Mock CSV, markdown, and CRM text inputs with embedded fallback",
   repName: "Jordan Marks",
   territory: "Chicago Metro Territory"
 };
 
 const BRAND = {
   logoWhiteUrl: "https://www.tempus.com/wp-content/uploads/2022/09/Tempus-Logo_White.png",
-  mediaKitUrl: "https://www.tempus.com/resources/media-kit/",
-  conceptLabel: "Concept Prototype",
-  provenance: "Public Tempus sources • mock account data"
+  conceptLabel: "Concept Prototype"
 };
 
 const DATA_SOURCE_FILES = {
@@ -745,7 +742,6 @@ const MANUAL_API_KEY_KEY = "tempus_api_key";
 
 let dataSourceStatus = "Embedded case data";
 let aiAssetStatus = "Embedded AI prompts";
-let PRODUCT_KNOWLEDGE_MARKDOWN = "";
 let localDataHealth = {
   level: "warning",
   label: "Embedded Data",
@@ -753,89 +749,54 @@ let localDataHealth = {
 };
 const THEME_KEY = "tempus_theme";
 
-// Competitor intelligence
+// Competitor battlecards (strengths and Tempus edge are shown side by side)
 const COMPETITOR_DATA = {
   "Foundation Medicine": {
-    shortName: "FMI",
     strengths: ["Established brand recognition", "FDA-approved CDx for multiple indications", "FoundationOne CDx: 324 genes"],
-    weaknesses: ["DNA-only - misses RNA fusions (ALK, ROS1, RET, NTRK)", "No matched tumor-normal default positioning", "Trial matching is less operationally embedded than TIME", "Standard workflow can feel slower for fast-moving lung cases"],
-    tempusEdge: ["xT CDx: FDA-approved 648-gene panel", "xR adds RNA when fusion biology matters", "Tempus Hub and reporting keep the workflow action-oriented", "TIME adds trial-matching support"],
-    talkTrack: "FMI is familiar, but Tempus gives the rep a broader story: xT CDx for 648-gene DNA profiling, xR when RNA matters, and TIME when the account needs a concrete trial-matching next step."
+    tempusEdge: [
+      "648-gene xT CDx panel with tumor-normal matching",
+      "Pair xT with xR whole transcriptome RNA when fusion biology matters",
+      "TIME network adds trial activation and matching support",
+      "Action-focused reporting and HLA-aware trial cues"
+    ],
+    talkTrack: "FMI is familiar, but Tempus gives teams a wider operational toolkit: xT CDx for 648-gene DNA profiling, xR when RNA matters, and TIME when the question is not just what the biomarker is, but where the patient can go next."
   },
   "Guardant Health": {
-    shortName: "Guardant",
     strengths: ["Strong liquid biopsy brand (Guardant360)", "Fast TAT for blood-based testing", "74-gene panel established with oncologists"],
-    weaknesses: ["Blood-only - no tissue-based comprehensive profiling", "74 genes vs our 105 (xF) or 648 (xT)", "No RNA fusion detection", "Limited to monitoring - not primary dx"],
-    tempusEdge: ["xF: 105 genes at 0.1% VAF sensitivity", "Tissue + liquid complementary approach", "Full transcriptome RNA when tissue available", "Integrated ecosystem: xT + xF + action-oriented reporting"],
-    talkTrack: "Guardant pioneered liquid biopsy, and Guardant360 is solid for monitoring. But with 105 genes and 0.1% VAF sensitivity, xF gives you broader coverage - and when tissue is available, pairing with xT gives the complete molecular picture Guardant simply can't offer."
+    tempusEdge: [
+      "xF: 105-gene liquid biopsy",
+      "Use xF as the fast front door, then reflex to xT or xR when more depth is needed",
+      "RNA and tissue workflows close the gaps blood-only testing leaves open",
+      "Tempus reporting plus TIME give the rep a clearer next-step story"
+    ],
+    talkTrack: "Guardant is a familiar liquid-first workflow, so the win is not to fight that instinct. Start where the account already is with xF, then show how Tempus can add xT or xR when the case needs more than blood alone can provide."
   },
   "Caris Life Sciences": {
-    shortName: "Caris",
     strengths: ["MI Profile covers DNA, RNA, and protein", "Large real-world data network", "Established in community oncology"],
-    weaknesses: ["Slower turnaround can delay action", "Less cohesive workflow story for the rep", "Smaller liquid-biopsy complement", "Trial operations are less central to the pitch"],
-    tempusEdge: ["Action-oriented reporting", "TIME network for trial execution support", "Complementary xF liquid biopsy workflow", "Disease-specific DNA + RNA positioning"],
-    talkTrack: "Caris is credible, but Tempus is easier to position when the rep needs a cleaner workflow story: disease-specific testing, clearer reporting, and a more operational trial-matching motion."
+    tempusEdge: [
+      "Action-focused reporting tied to the next rep move",
+      "TIME network adds concrete trial activation support",
+      "RNA plus DNA story is easier to position disease by disease",
+      "Complementary xF liquid biopsy workflow"
+    ],
+    talkTrack: "Caris is credible, but Tempus is easier to position when the rep needs a cleaner workflow story: disease-specific testing, clearer reporting, and a more operational trial-matching motion through TIME."
   },
   "NeoGenomics": {
-    shortName: "Neo",
     strengths: ["Strong pathology/lab services reputation", "Regional relationships in community oncology", "Competitive pricing"],
-    weaknesses: ["Narrower gene panels", "Less comprehensive DNA + RNA positioning", "Smaller trial-matching story", "Less brand recognition in academic centers"],
     tempusEdge: ["648-gene panel breadth", "xR adds RNA sequencing", "Academic + community footprint", "Clinical-trial matching support"],
     talkTrack: "NeoGenomics has strong lab credibility, but Tempus is easier to position when the account needs broader profiling, RNA support, and a clearer path from result to next action."
   },
   "Myriad Genetics": {
-    shortName: "Myriad",
     strengths: ["Dominant in hereditary/germline testing (myChoice, BRACAnalysis)", "Strong genetic counseling network", "Established BRCA testing brand"],
-    weaknesses: ["Primarily germline - limited somatic tumor profiling", "No comprehensive genomic profiling for solid tumors", "No liquid biopsy", "Requires a multi-vendor story when the account wants one partner"],
-    tempusEdge: ["xT for somatic profiling", "Hereditary testing through Ambry, a Tempus company", "Full liquid-biopsy complement with xF", "Cleaner somatic + germline workflow across one commercial relationship"],
+    tempusEdge: [
+      "xT plus xG gives one partner across somatic and hereditary work",
+      "Tempus can still support liquid biopsy when the case needs it",
+      "The rep does not have to split the account story across separate vendors",
+      "Reporting stays tied to treatment and workflow decisions"
+    ],
     talkTrack: "Myriad owns hereditary testing, but Tempus is stronger when the account wants one partner across somatic, hereditary, and liquid-biopsy workflows instead of splitting the story across multiple vendors."
   }
 };
-
-Object.assign(COMPETITOR_DATA["Foundation Medicine"], {
-  weaknesses: [
-    "DNA-heavy workflow can miss RNA-only fusion signal",
-    "No matched tumor-normal default positioning",
-    "Trial matching is less operationally embedded than TIME",
-    "Standard workflow can feel slower for fast-moving lung cases"
-  ],
-  tempusEdge: [
-    "648-gene xT CDx panel with tumor-normal matching",
-    "Pair xT with xR whole transcriptome RNA when fusion biology matters",
-    "TIME network adds trial activation and matching support",
-    "Action-focused reporting and HLA-aware trial cues"
-  ],
-  talkTrack: "FMI is familiar, but Tempus gives teams a wider operational toolkit: xT CDx for 648-gene DNA profiling, xR when RNA matters, and TIME when the question is not just what the biomarker is, but where the patient can go next."
-});
-
-Object.assign(COMPETITOR_DATA["Guardant Health"], {
-  tempusEdge: [
-    "xF: 105-gene liquid biopsy",
-    "Use xF as the fast front door, then reflex to xT or xR when more depth is needed",
-    "RNA and tissue workflows close the gaps blood-only testing leaves open",
-    "Tempus reporting plus TIME give the rep a clearer next-step story"
-  ],
-  talkTrack: "Guardant is a familiar liquid-first workflow, so the win is not to fight that instinct. Start where the account already is with xF, then show how Tempus can add xT or xR when the case needs more than blood alone can provide."
-});
-
-Object.assign(COMPETITOR_DATA["Caris Life Sciences"], {
-  tempusEdge: [
-    "Action-focused reporting tied to the next rep move",
-    "TIME network adds concrete trial activation support",
-    "RNA plus DNA story is easier to position disease by disease",
-    "Complementary xF liquid biopsy workflow"
-  ],
-  talkTrack: "Caris is credible, but Tempus is easier to position when the rep needs a cleaner workflow story: disease-specific testing, clearer reporting, and a more operational trial-matching motion through TIME."
-});
-
-Object.assign(COMPETITOR_DATA["Myriad Genetics"], {
-  tempusEdge: [
-    "xT plus xG gives one partner across somatic and hereditary work",
-    "Tempus can still support liquid biopsy when the case needs it",
-    "The rep does not have to split the account story across separate vendors",
-    "Reporting stays tied to treatment and workflow decisions"
-  ]
-});
 
 // Verbatim copies of data/market_intelligence.csv and data/crm_notes.txt, used when
 // the files cannot be fetched (for example when index.html is opened from disk).
@@ -947,95 +908,6 @@ Discussed xG and xT integration benefits: one sample, one report, and germline f
 
 let MARKET_INTELLIGENCE = parseMarketIntelligenceCsv(EMBEDDED_MARKET_CSV);
 let CRM_NOTES = parseCrmNotesText(EMBEDDED_CRM_NOTES);
-
-// Product knowledge base
-const PRODUCT_KNOWLEDGE = {};
-
-Object.assign(PRODUCT_KNOWLEDGE, {
-  xT: {
-    full_name:"xT CDx",
-    type:"FDA-approved solid tumor DNA profiling",
-    genes:"648-gene tissue-based DNA panel",
-    turnaround_time:"Public Tempus oncology materials describe genomic profiling workflows as typically reporting in about 10-14 days after specimen receipt",
-    specimen:"FFPE tumor tissue with matched normal blood or saliva",
-    key_differentiators:[
-      "FDA-approved 648-gene NGS test for malignant solid tumors",
-      "Tumor + normal matched approach with MSI status",
-      "Companion diagnostic claims for select colorectal cancer indications",
-      "Professional services can add TMB, HLA class I genotyping, CNVs, rearrangements in 22 genes, potential germline findings, and therapy and trial matching insights"
-    ],
-    fda_status:"FDA-approved companion diagnostic workflow for select colorectal cancer indications",
-    insurance:"Tempus supports Medicare and major commercial payer workflows plus financial assistance resources",
-    best_for:["NSCLC","Breast","Colorectal","Ovarian","Prostate","Melanoma","GI cancers","Solid tumors"]
-  },
-  xR: {
-    full_name:"xR",
-    type:"Whole transcriptome RNA sequencing",
-    genes:"Whole transcriptome RNA sequencing for solid tumors and hematologic malignancies",
-    turnaround_time:"Provider-facing materials emphasize flexible standalone or xT-paired ordering rather than a single published turnaround metric",
-    specimen:"FFPE tumor tissue with standalone or combination ordering alongside xT",
-    key_differentiators:[
-      "Reports clinically relevant fusions across more than 100 targeted genes",
-      "Detects MET exon 14 and EGFRvIII altered splicing",
-      "Public Tempus materials say DNA + RNA sequencing identified 21% more patients with driver fusions eligible for FDA-approved targeted therapies than DNA sequencing alone",
-      "Can be ordered standalone or in combination with xT"
-    ],
-    best_for:["NSCLC","Sarcomas","Pediatric tumors","Tumors of unknown primary","Thyroid","AML","MDS","Rare tumors"]
-  },
-  xF: {
-    full_name:"xF / xF+",
-    type:"Liquid biopsy for solid tumors",
-    genes:"105-gene xF panel and 523-gene xF+ panel for ctDNA profiling",
-    turnaround_time:"Blood-based Tempus workflows are positioned for rapid turnaround after specimen receipt",
-    specimen:"Peripheral blood; the public xF clinical overview specifies two Streck tubes for xF",
-    sensitivity:"Tempus xF+ published validation reports 98.3% sensitivity for SNVs at >=0.2% VAF",
-    key_differentiators:[
-      "Useful when tissue is limited or therapy decisions cannot wait",
-      "Complements tissue testing; public Tempus materials report unique actionable findings detected in liquid biopsy that were not seen in tissue alone in some metastatic cases",
-      "Supports serial monitoring and resistance tracking"
-    ],
-    best_for:["NSCLC","Monitoring treatment response","Detecting resistance mutations","Stage IV patients with inaccessible tumors","mCRPC","Liquid-first workflows"]
-  },
-  xG: {
-    full_name:"Tempus hereditary testing powered by Ambry Genetics",
-    type:"Hereditary and germline testing",
-    genes:"CancerNext 40-gene or CancerNext-Expanded 77-gene hereditary cancer panels, with optional RNAinsight",
-    turnaround_time:"~5-14 days after specimen receipt for CancerNext and CancerNext-Expanded",
-    specimen:"Blood, saliva, or skin punch biopsy (cultured fibroblasts)",
-    key_differentiators:[
-      "Performed by Ambry Genetics, a Tempus company",
-      "Validated germline confirmation for potential hereditary findings",
-      "Optional RNAinsight supports variant interpretation",
-      "Supports hereditary risk assessment across breast, ovarian, pancreatic, prostate, colorectal, endometrial, gastric, small bowel, urothelial, and renal cancers"
-    ],
-    best_for:["Breast","Ovarian","Colorectal","Prostate","Pancreatic","Lynch syndrome"]
-  },
-  xH: {
-    full_name:"xH",
-    type:"Publicly described whole genome sequencing assay for hematologic malignancies",
-    genes:"Whole genome sequencing",
-    turnaround_time:"Used here as background context only; the prototype's heme messaging leans on publicly available xR and ordering workflow materials",
-    specimen:"Blood or bone marrow",
-    sensitivity:"97.29% PPA for SNVs and indels; 92.86% for structural variants in validation",
-    key_differentiators:[
-      "Optimized for AML, MDS, MPN, and overlap syndromes",
-      "Whole-genome view captures SNVs, indels, copy-number changes, and structural variants",
-      "Included as public product context rather than a primary provider-facing recommendation in this concept build"
-    ],
-    best_for:["AML","MDS","MPN","MDS/MPN","Myeloid malignancies"]
-  },
-  TIME_Trial_Program: {
-    full_name:"TIME Trial Network",
-    description:"Tempus clinical-trial matching and network support for patient identification and trial execution.",
-    value_prop:"Connects matched patients to active research opportunities and helps sites operationalize enrollment.",
-    key_stat:"Public Tempus clinical-development materials highlight 5M+ cancer patients covered by the TIME network and ~100 sites representing 800+ clinical locations"
-  },
-  Smart_Report: {
-    full_name:"Tempus treatment and trial matching insights",
-    description:"Guideline-aware therapy and trial context layered into the Tempus ordering and reporting workflow.",
-    key_differentiator:"Tempus is strongest when the rep can connect molecular output to the next clinical action, not just hand over a variant list."
-  }
-});
 
 const SOURCE_LIBRARY = {
   xT_panel: { label:"xT CDx", detail:"FDA-approved 648-gene tissue-based NGS test for malignant solid tumors using tumor + normal matching.", url:"https://www.tempus.com/news/tempus-receives-u-s-fda-approval-for-xt-cdx-a-ngs-based-in-vitro-diagnostic-device/" },
@@ -1169,8 +1041,7 @@ let connectionState = {
   proxyModel: CONFIG.model
 };
 const PANEL_WIDTH_KEY = "tempus_left_panel_width";
-const RIGHT_TOP_HEIGHT_KEY = "tempus_right_top_height";
-const layoutState = { leftPanelWidth: loadPanelWidth(), rightTopHeight: loadRightTopHeight() };
+const layoutState = { leftPanelWidth: loadPanelWidth() };
 
 function loadTheme() {
   try {
@@ -1186,15 +1057,6 @@ function loadPanelWidth() {
     return raw ? parseInt(raw, 10) : 320;
   } catch (error) {
     return 320;
-  }
-}
-
-function loadRightTopHeight() {
-  try {
-    const raw = localStorage.getItem(RIGHT_TOP_HEIGHT_KEY);
-    return raw ? parseInt(raw, 10) : 260;
-  } catch (error) {
-    return 260;
   }
 }
 
@@ -1236,19 +1098,6 @@ function applyPanelWidth(width) {
     handle.setAttribute("aria-valuenow", String(nextWidth));
     handle.setAttribute("aria-valuetext", `${nextWidth}px left panel width`);
   }
-}
-
-function clampRightTopHeight(height) {
-  const panel = document.querySelector(".right-panel");
-  const availableHeight = panel ? panel.getBoundingClientRect().height : window.innerHeight;
-  const minHeight = 120;
-  const maxHeight = Math.min(420, Math.max(240, Math.floor(availableHeight * 0.52)));
-  return Math.max(minHeight, Math.min(maxHeight, Math.round(height)));
-}
-
-function applyRightTopHeight(height) {
-  // No-op: right panel top is now auto-height (no split panel)
-  layoutState.rightTopHeight = height;
 }
 
 function applyTheme(theme) {
@@ -1542,7 +1391,6 @@ async function loadMockDataSources() {
 
   if (parsedMarket.length) MARKET_INTELLIGENCE = parsedMarket;
   if (parsedCrm.length) CRM_NOTES = parsedCrm;
-  PRODUCT_KNOWLEDGE_MARKDOWN = productMarkdown;
 
   localDataHealth = buildLocalDataHealth({
     marketValidation,
@@ -1893,10 +1741,6 @@ function setupPanelResizer() {
   });
 
   handle.addEventListener("dblclick", () => applyPanelWidth(320));
-}
-
-function setupRightVerticalResizer() {
-  // No-op: right panel is no longer split vertically
 }
 
 function getInteractionLabel(type) {
@@ -3502,16 +3346,13 @@ async function init() {
   renderApp();
   applyTheme(currentTheme);
   applyPanelWidth(layoutState.leftPanelWidth);
-  applyRightTopHeight(layoutState.rightTopHeight);
   setupPanelResizer();
-  setupRightVerticalResizer();
   rankedProviders = computePriorityScores();
   renderSidebarTop();
   renderProviderList();
   updateApiStatus();
   window.addEventListener("resize", debounce(() => {
     applyPanelWidth(layoutState.leftPanelWidth);
-    applyRightTopHeight(layoutState.rightTopHeight);
   }, 80));
   if (rankedProviders.length > 0) selectProvider(rankedProviders[0].id, { resetTab:true });
 }
