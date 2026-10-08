@@ -8,7 +8,7 @@ Can a small account-preparation workspace explain who to prioritize and turn moc
 
 ## What I built
 
-[`index.html`](index.html) contains the interface, deterministic ranking engine, CSV/CRM parsers, and local draft templates. It loads the [market dataset](data/market_intelligence.csv), [CRM notes](data/crm_notes.txt), and [product reference notes](data/product_knowledge_base.md), with embedded copies available as fallbacks. [`docs/scoring-rubric.md`](docs/scoring-rubric.md) explains the ranking factors; [`prompts/system.md`](prompts/system.md) defines the optional model's role and constraints.
+[`index.html`](index.html) contains the interface, deterministic ranking engine, CSV/CRM parsers, and local draft templates. It loads the [market dataset](data/market_intelligence.csv), [CRM notes](data/crm_notes.txt), and [product reference notes](data/product_knowledge_base.md); verbatim embedded copies of the market and CRM files are used if they cannot be fetched (for example, when the page is opened from disk). Draft evidence comes from a source library inside `index.html`; the product notes file is only checked for its sections and citation links. [`docs/scoring-rubric.md`](docs/scoring-rubric.md) explains the ranking factors; [`prompts/system.md`](prompts/system.md) defines the optional model's role and constraints.
 
 ## Result
 

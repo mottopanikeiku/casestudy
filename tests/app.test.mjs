@@ -135,3 +135,8 @@ test("local week plan visits each top provider exactly once", () => {
     assert.ok(!plan.includes(provider.name), `${provider.name} is outside the top 7`);
   }
 });
+
+test("embedded fallbacks are verbatim copies of the data files", () => {
+  assert.equal(app.EMBEDDED_MARKET_CSV, marketText.trimEnd());
+  assert.equal(app.EMBEDDED_CRM_NOTES, crmText.trimEnd());
+});
