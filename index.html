@@ -2896,8 +2896,14 @@ async function generateWithFallback({ cacheKey, prompt, targetEl, temperature, s
 }
 
 function copyTextValue(text, message = "Copied to clipboard") {
-  navigator.clipboard.writeText(text);
-  showToast(message);
+  // navigator.clipboard is missing on non-HTTPS origins and writeText can be refused.
+  const write = navigator.clipboard?.writeText
+    ? navigator.clipboard.writeText(text)
+    : Promise.reject(new Error("Clipboard API unavailable"));
+  write.then(
+    () => showToast(message),
+    () => showToast("Copy failed: the browser blocked clipboard access")
+  );
 }
 
 function copyGeneratedContent(cacheKey, message = "Copied to clipboard") {
@@ -3278,8 +3284,7 @@ function exportPrepSheet() {
   getSourceIdsForProvider(p).forEach(id => {
     if (SOURCE_LIBRARY[id]) lines.push(`  - ${SOURCE_LIBRARY[id].label}: ${SOURCE_LIBRARY[id].detail}`);
   });
-  navigator.clipboard.writeText(lines.join("\n"));
-  showToast("Prep sheet copied to clipboard");
+  copyTextValue(lines.join("\n"), "Prep sheet copied to clipboard");
 }
 
 function showToast(message) {
