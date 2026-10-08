@@ -120,3 +120,18 @@ test("ranking is reproducible from the data as-of date", () => {
     "P015:65", "P014:63", "P003:62", "P008:61", "P009:59"
   ]);
 });
+
+test("local week plan visits each top provider exactly once", () => {
+  app.setMarket(app.parseMarketIntelligenceCsv(marketText));
+  app.setCrm(app.parseCrmNotesText(crmText));
+  const ranked = app.computePriorityScores();
+  app.setRanked(ranked);
+  const plan = app.buildWeekPlanLocal();
+  for (const provider of [...ranked].slice(0, 7)) {
+    const visits = plan.split(`**${provider.name}**`).length - 1;
+    assert.equal(visits, 1, `${provider.name} appears ${visits} times:\n${plan}`);
+  }
+  for (const provider of [...ranked].slice(7)) {
+    assert.ok(!plan.includes(provider.name), `${provider.name} is outside the top 7`);
+  }
+});

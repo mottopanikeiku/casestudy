@@ -3140,15 +3140,23 @@ function buildWeekPlanLocal() {
     buckets[provider.hospital_system].push(provider);
   });
   const systems = Object.values(buckets).sort((a, b) => b[0].score - a[0].score);
+  // At most two same-system visits per day; each provider is scheduled once.
+  const visitDays = systems.flatMap(cluster => {
+    const chunks = [];
+    for (let index = 0; index < cluster.length; index += 2) chunks.push(cluster.slice(index, index + 2));
+    return chunks;
+  });
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  return days.map((day, index) => {
-    const cluster = systems[index % systems.length] || [];
-    const visits = cluster.slice(0, 2);
+  const plan = days.map((day, index) => {
+    const visits = visitDays[index] || [];
     const visitLine = visits.length
       ? visits.map(provider => `**${provider.name}** (${provider.hospital_system}) - ${provider.playbook.nextBestAction}`).join("\n")
       : "Follow-up block for open pilots and internal coordination.";
     return `**${day}**\n${visitLine}\nAfternoon: follow-up calls, emails, and prep for the next tumor board or pilot checkpoint.`;
-  }).join("\n\n");
+  });
+  const unscheduled = visitDays.slice(days.length).flat();
+  if (unscheduled.length) plan.push(`**Not scheduled this week**\n${unscheduled.map(provider => provider.name).join(", ")}`);
+  return plan.join("\n\n");
 }
 
 function generatePriorityRationale(p) {
