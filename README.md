@@ -31,7 +31,7 @@ The optional Claude connection is not needed to reproduce the demo and can incur
 ## Limitations
 
 - Provider identities, publications, volumes, relationships, and CRM interactions are synthetic; real institution names provide setting only. Do not use these records for outreach.
-- The ranking weights and account-fit rules are assumptions, not learned or validated against sales outcomes. Recency depends on the current date.
+- The ranking weights and account-fit rules are assumptions, not learned or validated against sales outcomes. Recency is counted from the data's as-of date (2026-03-22, `CONFIG.asOfDate` in `index.html`), not today, so the ranking does not drift with the calendar; real CRM data would need a live date.
 - Source links and product claims can become stale; review the original materials before using a draft.
 - Prompt rules and the [output checklist](evals/output-checklist.md) are instructions for review, not proof that generated text is accurate or safe.
 - This case-study prototype has no CRM integration, access control, or patient-data workflow. Do not upload confidential data or use drafts as treatment recommendations.

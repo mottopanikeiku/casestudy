@@ -688,7 +688,8 @@ const CONFIG = {
   apiVersion: "2023-06-01",
   maxTokens: 1024,
   temps: { rationale: 0.5, objections: 0.3, scripts: 0.7, weekPlan: 0.6 },
-  dataDate: "March 22, 2026",
+  // Recency is measured from this snapshot date so the ranking is reproducible.
+  asOfDate: "2026-03-22",
   dataSources: "Mock CSV, markdown, and CRM text inputs with embedded fallback",
   repName: "Jordan Marks",
   territory: "Chicago Metro Territory"
@@ -1439,7 +1440,7 @@ function validateCrmInput(rawText, parsedCrm, marketIds) {
   const malformedBlockIds = [];
   const futureDateIds = [];
   const outOfOrderIds = [];
-  const today = new Date();
+  const asOf = getAsOfDate();
 
   blocks.forEach(block => {
     const lines = block.split(/\r?\n/);
@@ -1449,7 +1450,7 @@ function validateCrmInput(rawText, parsedCrm, marketIds) {
     if (!providerId || !providerName || dateMatches.length === 0) malformedBlockIds.push(providerId || "unknown");
 
     const parsedDates = dateMatches.map(value => new Date(`${value}T00:00:00`));
-    if (parsedDates.some(date => Number.isNaN(date.getTime()) || date > today)) futureDateIds.push(providerId);
+    if (parsedDates.some(date => Number.isNaN(date.getTime()) || date > asOf)) futureDateIds.push(providerId);
     for (let index = 1; index < parsedDates.length; index++) {
       if (parsedDates[index] < parsedDates[index - 1]) {
         outOfOrderIds.push(providerId);
@@ -1510,7 +1511,7 @@ function buildLocalDataHealth({ marketValidation, crmValidation, kbValidation, u
   if (marketValidation.numericIssueIds.length) issues.push(`market CSV has invalid numeric fields for: ${formatValidationList(marketValidation.numericIssueIds)}`);
   if (marketValidation.plausibilityIssueIds.length) issues.push(`market volumes need review for: ${formatValidationList(marketValidation.plausibilityIssueIds)}`);
   if (crmValidation.malformedBlockIds.length) issues.push(`CRM blocks need format fixes for: ${formatValidationList(crmValidation.malformedBlockIds)}`);
-  if (crmValidation.futureDateIds.length) issues.push(`CRM contains future or invalid dates for: ${formatValidationList(crmValidation.futureDateIds)}`);
+  if (crmValidation.futureDateIds.length) issues.push(`CRM has dates after ${CONFIG.asOfDate} or invalid dates for: ${formatValidationList(crmValidation.futureDateIds)}`);
   if (crmValidation.outOfOrderIds.length) issues.push(`CRM dates are out of order for: ${formatValidationList(crmValidation.outOfOrderIds)}`);
   if (crmValidation.missingCrmIds.length) issues.push(`CRM IDs missing from market CSV: ${formatValidationList(crmValidation.missingCrmIds)}`);
   if (kbValidation.missingSections.length) issues.push(`product KB missing sections: ${formatValidationList(kbValidation.missingSections)}`);
@@ -1590,9 +1591,13 @@ function getLatestInteraction(p) {
   return p.notes && p.notes.interactions.length ? p.notes.interactions[p.notes.interactions.length - 1] : null;
 }
 
+function getAsOfDate() {
+  return new Date(`${CONFIG.asOfDate}T00:00:00`);
+}
+
 function getDaysSince(dateString) {
   if (!dateString) return null;
-  return Math.floor((new Date() - new Date(dateString + "T00:00:00")) / 86400000);
+  return Math.floor((getAsOfDate() - new Date(dateString + "T00:00:00")) / 86400000);
 }
 
 function getSentimentScore(sentiment) {
@@ -2259,7 +2264,7 @@ function renderApp() {
           </div>
         </div>
         <div class="header-right">
-          <span class="data-sync" style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono)">Data: ${CONFIG.dataDate}</span>
+          <span class="data-sync" style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono)">Data as of ${getAsOfDate().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
           <span class="data-health-chip ${localDataHealth.level}" title="${escapeHtml(localDataHealth.detail)}">${escapeHtml(dataSourceStatus)}</span>
           <button id="api-status" class="api-status-btn demo" onclick="showApiModal()">Demo Mode</button>
           <button class="btn-sm" id="theme-toggle" onclick="toggleTheme()" style="font-family:var(--font-mono);font-size:11px">Dark</button>

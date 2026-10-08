@@ -108,3 +108,15 @@ test("score weights sum to one and scores stay within 0-100", () => {
     assert.ok(ranked[index - 1].score >= ranked[index].score, "ranking is sorted by score");
   }
 });
+
+test("ranking is reproducible from the data as-of date", () => {
+  assert.equal(app.getDaysSince(app.CONFIG.asOfDate), 0);
+  assert.equal(app.getDaysSince("2026-03-15"), 7);
+  app.setMarket(app.parseMarketIntelligenceCsv(marketText));
+  app.setCrm(app.parseCrmNotesText(crmText));
+  const ranking = [...app.computePriorityScores()].map(provider => `${provider.id}:${provider.score}`);
+  assert.deepEqual(ranking, [
+    "P006:88", "P001:79", "P016:72", "P025:70", "P011:68",
+    "P015:65", "P014:63", "P003:62", "P008:61", "P009:59"
+  ]);
+});
