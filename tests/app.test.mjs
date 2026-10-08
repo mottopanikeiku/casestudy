@@ -140,3 +140,14 @@ test("embedded fallbacks are verbatim copies of the data files", () => {
   assert.equal(app.EMBEDDED_MARKET_CSV, marketText.trimEnd());
   assert.equal(app.EMBEDDED_CRM_NOTES, crmText.trimEnd());
 });
+
+test("account fit matches GI and GU as whole words only", () => {
+  const base = {
+    specialty: "", top_cancer_types: [], payer_mix: "mixed", competitor_volume: 0, tempus_relationship: "active"
+  };
+  const fit = provider => Math.round(app.getAccountFitScore({ ...base, ...provider }) * 100) / 100;
+  assert.equal(fit({ primary_competitor: "Caris Life Sciences", specialty: "GI/Colorectal Oncology" }), 0.48);
+  assert.equal(fit({ primary_competitor: "Caris Life Sciences", specialty: "Surgical Oncology" }), 0.34);
+  assert.equal(fit({ primary_competitor: "Guardant Health", specialty: "GU/Prostate Oncology" }), 0.48);
+  assert.equal(fit({ primary_competitor: "Guardant Health", specialty: "Head & Neck Oncology", top_cancer_types: ["Tongue SCC"] }), 0.34);
+});

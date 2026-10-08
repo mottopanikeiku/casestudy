@@ -1545,9 +1545,9 @@ function getAccountFitScore(p) {
   if (p.specialty === "Pathology/Lab Director") score += 0.18;
   if (isHemeProvider(p)) score += 0.12;
   if (p.primary_competitor === "Foundation Medicine" && /(thoracic|sarcoma|neuro|pediatric|pathology)/.test(specialty)) score += 0.14;
-  if (p.primary_competitor === "Guardant Health" && /(thoracic|lung|prostate|general oncology|gu)/.test(specialty)) score += 0.14;
+  if (p.primary_competitor === "Guardant Health" && /(thoracic|lung|prostate|general oncology|\bgu\b)/.test(specialty)) score += 0.14;
   if (p.primary_competitor === "Myriad Genetics" && hereditaryFocus) score += 0.18;
-  if (p.primary_competitor === "Caris Life Sciences" && /(gi|colorectal|pancreatic)/.test(specialty)) score += 0.14;
+  if (p.primary_competitor === "Caris Life Sciences" && /(\bgi\b|colorectal|pancreatic)/.test(specialty)) score += 0.14;
   if (p.competitor_volume >= 20) score += 0.08;
 
   return clamp(score);

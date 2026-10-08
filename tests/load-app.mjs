@@ -31,6 +31,7 @@ const EXPORTED_NAMES = [
   "computePriorityScores",
   "buildWeekPlanLocal",
   "renderPromptTemplate",
+  "getAccountFitScore",
   "escapeHtml"
 ];
 
