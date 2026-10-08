@@ -1879,8 +1879,8 @@ function renderSidebarTop() {
             ${topThree.map((provider, index) => `<button class="today-item" onclick="selectProvider('${provider.id}', { resetTab:true })">
               <div class="today-rank">${index + 1}</div>
               <div class="today-main">
-                <div class="today-name">${provider.name}</div>
-                <div class="today-meta">${provider.institution} • ${provider.score}/100</div>
+                <div class="today-name">${escapeHtml(provider.name)}</div>
+                <div class="today-meta">${escapeHtml(provider.institution)} • ${provider.score}/100</div>
                 <div class="today-why">${escapeHtml(getWhyNow(provider))}</div>
               </div>
             </button>`).join("")}
@@ -2159,12 +2159,12 @@ function renderProviderList() {
       const selected = p.id === selectedProviderId ? " selected" : "";
       return `<div class="provider-card${selected}" data-id="${p.id}" role="button" tabindex="0"${selected ? ' aria-current="true"' : ""} onclick="selectProvider('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProvider('${p.id}')}">
         <div class="card-top">
-          <div class="card-name">${p.name}</div>
+          <div class="card-name">${escapeHtml(p.name)}</div>
           <span class="score-badge ${tier}">${p.score}/100</span>
         </div>
-        <div class="card-institution">${p.institution}</div>
-        <div class="card-meta">${p.specialty}</div>
-        <div class="why-now provider-summary">${getWhyNow(p)}</div>
+        <div class="card-institution">${escapeHtml(p.institution)}</div>
+        <div class="card-meta">${escapeHtml(p.specialty)}</div>
+        <div class="why-now provider-summary">${escapeHtml(getWhyNow(p))}</div>
       </div>`;
     }).join("");
   }
@@ -2303,14 +2303,14 @@ function renderPriorityTab(p) {
           <div class="prep-hero-grid">
             <div class="prep-main">
               <div class="prep-identity">
-                <div class="ph-name">${p.name}, ${p.credentials}</div>
-                <div class="ph-title">${p.title}</div>
-                <div class="ph-institution">${p.institution} | ${p.hospital_system}</div>
+                <div class="ph-name">${escapeHtml(`${p.name}, ${p.credentials}`)}</div>
+                <div class="ph-title">${escapeHtml(p.title)}</div>
+                <div class="ph-institution">${escapeHtml(`${p.institution} | ${p.hospital_system}`)}</div>
                 <div class="ph-badges">
                   <span class="status-badge ${p.tempus_relationship}">${statusLabel}</span>
                   <span class="score-badge ${tier}">${p.score}/100</span>
-                  <span class="specialty-pill">${p.specialty}</span>
-                  ${primaryConcern !== "No open concern tagged" ? `<span class="objection-tag">${primaryConcern}</span>` : `<span class="info-chip">No open concern tagged</span>`}
+                  <span class="specialty-pill">${escapeHtml(p.specialty)}</span>
+                  ${primaryConcern !== "No open concern tagged" ? `<span class="objection-tag">${escapeHtml(primaryConcern)}</span>` : `<span class="info-chip">No open concern tagged</span>`}
                 </div>
               </div>
               <div class="prep-why-block">
@@ -2321,7 +2321,7 @@ function renderPriorityTab(p) {
             </div>
             <div class="prep-sidecard">
               <div class="section-label">Next best action</div>
-              <div class="prep-sidecard-title">${playbook.nextBestAction}</div>
+              <div class="prep-sidecard-title">${escapeHtml(playbook.nextBestAction)}</div>
               <div class="prep-sidecard-copy">${playbook.meetingObjective}</div>
               <div class="prep-sidecard-rule"></div>
               <div class="prep-sidecard-meta"><strong>Stakeholder lens:</strong> ${playbook.stakeholder.badge}</div>
@@ -2436,18 +2436,18 @@ function renderObjectionsTab(p) {
         const label = ix.objections.length ? "Draft Response" : "Draft Follow-Up";
         return `<div class="crm-note">
           <div class="crm-note-header">
-            <span class="crm-note-meta">${dateStr} | ${ix.rep}</span>
-            <span class="crm-note-type">${ix.type}</span>
+            <span class="crm-note-meta">${dateStr} | ${escapeHtml(ix.rep)}</span>
+            <span class="crm-note-type">${escapeHtml(ix.type)}</span>
           </div>
-          <div class="crm-note-text">${ix.note}</div>
+          <div class="crm-note-text">${escapeHtml(ix.note)}</div>
           <div class="crm-note-actions">
             <div class="crm-note-tags">
               <span class="crm-note-sentiment ${ix.sentiment}">${ix.sentiment}</span>
-              ${ix.objections.length ? `<div class="objections-list">${ix.objections.map(o => `<span class="objection-tag">${o.replace(/_/g, " ")}</span>`).join("")}</div>` : '<span class="info-chip">No open objection tagged</span>'}
+              ${ix.objections.length ? `<div class="objections-list">${ix.objections.map(o => `<span class="objection-tag">${escapeHtml(o.replace(/_/g, " "))}</span>`).join("")}</div>` : '<span class="info-chip">No open objection tagged</span>'}
             </div>
             <button class="btn-sm primary" onclick="generateObjectionResponse(${realIdx})">${label}</button>
           </div>
-          ${ix.next_steps.length ? `<div class="next-step-line">Suggested next step: ${ix.next_steps[0]}</div>` : ""}
+          ${ix.next_steps.length ? `<div class="next-step-line">Suggested next step: ${escapeHtml(ix.next_steps[0])}</div>` : ""}
           <div id="ai-objection-${realIdx}"></div>
         </div>`;
       }).join("")}
@@ -2536,7 +2536,7 @@ function showInteractionModal(providerId, interactionIndex) {
   modal.className = "modal wide";
   modal.innerHTML = `
     <h2>${openLabel}</h2>
-    <p>${provider.name} • ${provider.institution}</p>
+    <p>${escapeHtml(`${provider.name} • ${provider.institution}`)}</p>
     <div class="interaction-modal-meta">
       <span class="info-chip">${dateLabel}</span>
       <span class="info-chip">${escapeHtml(interaction.type.replace(/_/g, " "))}</span>
