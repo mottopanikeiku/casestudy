@@ -43,12 +43,12 @@ Contains mock relationship history for 5-10 physicians and stakeholders:
 
 The prototype normalizes the following for downstream logic:
 
-- `top_cancer_types` into arrays
-- `recent_publications` into arrays
-- `est_monthly_patients`, `est_genomic_eligible`, `current_tempus_volume`, and `competitor_volume` into numeric fields
-- relationship stage into a consistent enum-like label
-- CRM objections into explicit tags
-- CRM next steps into ordered lists
+- `top_cancer_types` and `recent_publications` from `|`-separated text into arrays
+- `est_monthly_patients`, `est_genomic_eligible`, `current_tempus_volume`, and `competitor_volume` into numbers
+- CRM objections (comma-separated) into tag arrays
+- CRM next steps (semicolon-separated) into ordered lists
+
+`tempus_relationship` and CRM sentiment are used verbatim. Filters and scoring expect `new_prospect`, `lapsed`, `active`, or `champion`, and `hot`, `warm`, `neutral`, or `cold`; other values fall back to default scores.
 
 ## Trusted Evidence
 
