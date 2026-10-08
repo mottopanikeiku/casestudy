@@ -1511,8 +1511,8 @@ function buildLocalDataHealth({ marketValidation, crmValidation, kbValidation, u
   if (crmValidation.futureDateIds.length) issues.push(`CRM has dates after ${CONFIG.asOfDate} or invalid dates for: ${formatValidationList(crmValidation.futureDateIds)}`);
   if (crmValidation.outOfOrderIds.length) issues.push(`CRM dates are out of order for: ${formatValidationList(crmValidation.outOfOrderIds)}`);
   if (crmValidation.missingCrmIds.length) issues.push(`CRM IDs missing from market CSV: ${formatValidationList(crmValidation.missingCrmIds)}`);
-  if (kbValidation.missingSections.length) issues.push(`product KB missing sections: ${formatValidationList(kbValidation.missingSections)}`);
-  if (kbValidation.sectionsWithoutUrls.length) issues.push(`product KB sections without citations: ${formatValidationList(kbValidation.sectionsWithoutUrls)}`);
+  if (kbValidation.loaded && kbValidation.missingSections.length) issues.push(`product KB missing sections: ${formatValidationList(kbValidation.missingSections)}`);
+  if (kbValidation.loaded && kbValidation.sectionsWithoutUrls.length) issues.push(`product KB sections without citations: ${formatValidationList(kbValidation.sectionsWithoutUrls)}`);
 
   const isOk = issues.length === 0;
   return {
@@ -1530,10 +1530,10 @@ async function loadMockDataSources() {
   ]);
 
   const usingFallback = [marketResult, productResult, crmResult].some(result => result.status !== "fulfilled");
-  const marketText = marketResult.status === "fulfilled" ? marketResult.value : "";
-  const crmText = crmResult.status === "fulfilled" ? crmResult.value : "";
-  const parsedMarket = marketResult.status === "fulfilled" ? parseMarketIntelligenceCsv(marketResult.value) : [];
-  const parsedCrm = crmResult.status === "fulfilled" ? parseCrmNotesText(crmResult.value) : [];
+  const marketText = marketResult.status === "fulfilled" ? marketResult.value : EMBEDDED_MARKET_CSV;
+  const crmText = crmResult.status === "fulfilled" ? crmResult.value : EMBEDDED_CRM_NOTES;
+  const parsedMarket = parseMarketIntelligenceCsv(marketText);
+  const parsedCrm = parseCrmNotesText(crmText);
   const productMarkdown = productResult.status === "fulfilled" ? normalizeAssetText(productResult.value) : "";
   const marketIds = new Set(parsedMarket.map(provider => provider.id).filter(Boolean));
   const marketValidation = validateMarketInput(marketText, parsedMarket);
