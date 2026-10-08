@@ -30,6 +30,8 @@ const EXPORTED_NAMES = [
   "getDaysSince",
   "computePriorityScores",
   "buildWeekPlanLocal",
+  "buildMeetingScriptLocal",
+  "buildIntroScriptLocal",
   "renderPromptTemplate",
   "getAccountFitScore",
   "escapeHtml"

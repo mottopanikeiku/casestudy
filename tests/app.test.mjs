@@ -151,3 +151,21 @@ test("account fit matches GI and GU as whole words only", () => {
   assert.equal(fit({ primary_competitor: "Guardant Health", specialty: "GU/Prostate Oncology" }), 0.48);
   assert.equal(fit({ primary_competitor: "Guardant Health", specialty: "Head & Neck Oncology", top_cancer_types: ["Tongue SCC"] }), 0.34);
 });
+
+test("demo pitches open on a full sentence and keep product casing", () => {
+  app.setMarket(app.parseMarketIntelligenceCsv(marketText));
+  app.setCrm(app.parseCrmNotesText(crmText));
+  const ranked = [...app.computePriorityScores()];
+  const tones = ["Clinical / Data-Driven", "Conversational / Relationship", "Direct / Business Case"];
+  for (const provider of ranked) {
+    for (const tone of tones) {
+      const pitch = app.buildMeetingScriptLocal(provider, tone);
+      assert.match(pitch, /^(Last time we spoke, you had questions about [^.]+\.|Picking up from our [a-z -]+ on [A-Z][a-z]{2} \d{1,2}\.) /, `${provider.id} ${tone}: ${pitch}`);
+      assert.doesNotMatch(pitch, /\.\.|\b(xg|xt|xf|xr|stat|tempus)\b/, `${provider.id} ${tone}: ${pitch}`);
+    }
+  }
+  const osei = ranked.find(provider => provider.id === "P011");
+  assert.match(app.buildMeetingScriptLocal(osei, tones[0]), /coordinate STAT pilot with lab ops\?$/);
+  const goldstein = ranked.find(provider => provider.id === "P025");
+  assert.match(app.buildMeetingScriptLocal(goldstein, tones[1]), /we can set up xG ordering\.$/);
+});

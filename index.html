@@ -2952,15 +2952,45 @@ function buildObjectionResponseLocal(p, ix) {
   return `${ix.objections.includes("turnaround_time") ? "That timing concern is fair, especially when treatment decisions are moving quickly." : "That concern is reasonable, and it is exactly the part of the workflow we should pressure-test."} ${buildObjectionEvidence(p, ix)} ${ix.next_steps[0] || "Would it make sense to pressure-test this on the next few appropriate patients?"}`.replace(/\s+/g, " ").trim();
 }
 
+// Lowercase only the leading capitalized word so names and acronyms (Tempus, xG, STAT, NSCLC) survive mid-sentence.
+function lowerFirstWord(text) {
+  return String(text || "").replace(/^[A-Z][a-z]*\b/, word => word.toLowerCase());
+}
+
+// Lowercase ordinary capitalized words (Small Cell Lung Cancer) but keep acronyms (NSCLC, HR+, DCIS).
+function lowerCommonWords(text) {
+  return String(text || "").replace(/\b[A-Z][a-z]+\b/g, word => word.toLowerCase());
+}
+
+function withoutTrailingPeriod(text) {
+  return String(text || "").trim().replace(/\.$/, "");
+}
+
+const INTERACTION_NOUNS = { email: "email exchange", phone: "call", "in-person": "meeting", conference: "conversation at the conference" };
+
+const OBJECTION_PHRASES = {
+  competitor_loyalty: "switching from your current vendor",
+  needs_comparison_data: "comparison data",
+  cost_reimbursement: "cost and reimbursement",
+  clinical_utility_skepticism: "the clinical utility of broader panels"
+};
+
+function buildPitchOpener(last) {
+  const objection = last.objections[0];
+  if (objection) return `Last time we spoke, you had questions about ${OBJECTION_PHRASES[objection] || formatObjectionLabel(objection)}.`;
+  const dateLabel = new Date(`${last.date}T00:00:00`).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return `Picking up from our ${INTERACTION_NOUNS[last.type] || "last conversation"} on ${dateLabel}.`;
+}
+
 function buildIntroScriptLocal(p) {
   const products = getRelevantProducts(p);
-  const lead = p.recent_publications.length ? `I saw your recent work on ${p.recent_publications[0].toLowerCase()}` : `You are seeing a meaningful volume of ${p.top_cancer_types[0].toLowerCase()} patients`;
+  const lead = p.recent_publications.length ? `I saw your recent work (${p.recent_publications[0]})` : `You are seeing a meaningful volume of ${lowerCommonWords(p.top_cancer_types[0])} patients`;
   const productLine = isHemeProvider(p)
     ? `For hematologic accounts like yours, Tempus can streamline ordering through its comprehensive therapy selection workflow and use xR whole-transcriptome RNA sequencing when fusion or splice biology matters.`
     : products.includes("xF")
     ? `For accounts like yours, Tempus can start with xF, the public 105-gene liquid biopsy workflow, then add xT or xR when tissue and RNA detail matter.`
     : `For accounts like yours, Tempus usually leads with xT CDx and adds xR when fusion biology or RNA signal matters.`;
-  return `${p.name}, ${lead}. ${productLine} The reason I thought you were worth a quick look is that ${getWhyNow(p).toLowerCase()} If it is useful, we can keep it simple and review one disease-specific use case plus a low-friction pilot idea next week.`;
+  return `${p.name}, ${lead}. ${productLine} The reason I thought you were worth a quick look is that ${lowerFirstWord(getWhyNow(p))} If it is useful, we can keep it simple and review one disease-specific use case plus a low-friction pilot idea next week.`;
 }
 
 function buildMeetingScriptLocal(p, tone) {
@@ -2968,21 +2998,22 @@ function buildMeetingScriptLocal(p, tone) {
   const last = getLatestInteraction(p);
   const products = getRelevantProducts(p);
   const opener = last
-    ? `Last time we spoke, you flagged ${last.note.slice(0, 58).replace(/"/g, "").trim().replace(/[,:;]?\s*$/, "")}.`
-    : `I wanted to make this relevant quickly for your ${p.top_cancer_types[0].toLowerCase()} patients.`;
+    ? buildPitchOpener(last)
+    : `I wanted to make this relevant quickly for your ${lowerCommonWords(p.top_cancer_types[0])} patients.`;
   const metricLine = isHemeProvider(p)
     ? `Tempus can streamline hematologic ordering and use xR when fusion or splice biology matters.`
     : products.includes("xF")
     ? `Tempus can start with xF from blood, then expand to xT or xR when you need broader DNA or RNA detail.`
     : `Tempus can lead with xT CDx and add xR when RNA fusion biology matters.`;
-  const ask = (playbook.nextBestAction || "set up a brief follow-up").replace(/\.$/, "");
+  const ask = lowerFirstWord(withoutTrailingPeriod(playbook.nextBestAction || "set up a brief follow-up"));
+  const whyNow = lowerFirstWord(playbook.whyNow);
   if (tone === "Conversational / Relationship") {
-    return `${opener} I think this matters now because ${playbook.whyNow.toLowerCase()} ${metricLine} If it would help, we can ${ask.toLowerCase()}.`;
+    return `${opener} I think this matters now because ${whyNow} ${metricLine} If it would help, we can ${ask}.`;
   }
   if (tone === "Direct / Business Case") {
-    return `${opener} You still have ${p.competitor_volume} tests a month with ${p.primary_competitor}, so this is a real conversion opportunity. ${metricLine} The goal today is simple: ${playbook.meetingObjective.toLowerCase()}.`;
+    return `${opener} You still have ${p.competitor_volume} tests a month with ${p.primary_competitor}, so this is a real conversion opportunity. ${metricLine} The goal today is simple: ${lowerFirstWord(withoutTrailingPeriod(playbook.meetingObjective))}.`;
   }
-  return `${opener} The reason I am bringing Tempus up now is that ${playbook.whyNow.toLowerCase()} ${metricLine} Would it be worth a short follow-up so we can ${ask.toLowerCase()}?`;
+  return `${opener} The reason I am bringing Tempus up now is that ${whyNow} ${metricLine} Would it be worth a short follow-up so we can ${ask}?`;
 }
 
 function buildWeekPlanLocal() {
