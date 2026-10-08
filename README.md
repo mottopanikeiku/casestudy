@@ -8,7 +8,7 @@ Can a small account-preparation workspace explain who to prioritize and turn moc
 
 ## What I built
 
-[`index.html`](index.html) contains the interface, deterministic ranking engine, CSV/CRM parsers, and local draft templates. It loads the [market dataset](data/market_intelligence.csv), [CRM notes](data/crm_notes.txt), and [product reference notes](data/product_knowledge_base.md), with embedded copies available as fallbacks. [`docs/scoring-rubric.md`](docs/scoring-rubric.md) explains the ranking factors; [`prompts/system.md`](prompts/system.md) defines the optional model's role and constraints.
+[`index.html`](index.html) contains the interface, deterministic ranking engine, CSV/CRM parsers, and local draft templates. It loads the [market dataset](data/market_intelligence.csv), [CRM notes](data/crm_notes.txt), and [product reference notes](data/product_knowledge_base.md); verbatim embedded copies of the market and CRM files are used if they cannot be fetched (for example, when the page is opened from disk). Draft evidence comes from a source library inside `index.html`; the product notes file is only checked for its sections and citation links. [`docs/scoring-rubric.md`](docs/scoring-rubric.md) explains the ranking factors; [`prompts/system.md`](prompts/system.md) defines the optional model's role and constraints.
 
 ## Result
 
@@ -26,12 +26,24 @@ nice -n 19 python3 -m http.server 8080
 
 Open `http://localhost:8080` in a browser. Stay in **Demo Mode** to use the ranking and drafts without credentials or paid compute. A CPU-only laptop with Python 3 and a modern browser is sufficient; no GPU or model download is needed. Serving the demo has no paid-service cost. Fonts and branding load from public websites.
 
-The optional Claude connection is not needed to reproduce the demo and can incur API charges. [`api/claude.js`](api/claude.js) reads a server-side `ANTHROPIC_API_KEY`; local manual key entry is also supported. Neither path is part of the free reproduction instructions.
+The optional Claude connection is not needed to reproduce the demo and can incur API charges. [`api/claude.js`](api/claude.js) reads a server-side `ANTHROPIC_API_KEY` (and optional `CLAUDE_MODEL`) and caps responses at 1,024 tokens; local manual key entry is also supported. Neither path is part of the free reproduction instructions.
+
+## Checks
+
+With Node 22 (no packages to install) and PowerShell 7:
+
+```sh
+node --test                                # parsers, validators, ranking, week plan, prompt tokens, API proxy
+pwsh scripts/validate_local_inputs.ps1     # data files: columns, numbers, CRM dates and IDs, KB citations
+pwsh scripts/validate_ai_assets.ps1        # prompt files and their {{tokens}}
+```
+
+CI runs all three on pushes to `main` and on pull requests.
 
 ## Limitations
 
 - Provider identities, publications, volumes, relationships, and CRM interactions are synthetic; real institution names provide setting only. Do not use these records for outreach.
-- The ranking weights and account-fit rules are assumptions, not learned or validated against sales outcomes. Recency depends on the current date.
+- The ranking weights and account-fit rules are assumptions, not learned or validated against sales outcomes. Recency is counted from the data's as-of date (2026-03-22, `CONFIG.asOfDate` in `index.html`), not today, so the ranking does not drift with the calendar; real CRM data would need a live date.
 - Source links and product claims can become stale; review the original materials before using a draft.
 - Prompt rules and the [output checklist](evals/output-checklist.md) are instructions for review, not proof that generated text is accurate or safe.
 - This case-study prototype has no CRM integration, access control, or patient-data workflow. Do not upload confidential data or use drafts as treatment recommendations.

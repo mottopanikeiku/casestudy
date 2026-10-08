@@ -73,7 +73,15 @@ foreach ($row in $marketRows) {
 
 $crmText = Get-Content -Path $crmPath -Raw
 $crmBlocks = [regex]::Split($crmText, "\r?\n={3,}\r?\n") | ForEach-Object { $_.Trim() } | Where-Object { $_ }
-$today = Get-Date
+# Recency in index.html is measured from CONFIG.asOfDate, so no touch may come after it.
+$indexText = Get-Content -Path (Join-Path $repoRoot "index.html") -Raw
+$asOfMatch = [regex]::Match($indexText, 'asOfDate:\s*"(\d{4}-\d{2}-\d{2})"')
+if (-not $asOfMatch.Success) {
+  Add-Issue "index.html is missing CONFIG.asOfDate."
+  $asOfDate = Get-Date
+} else {
+  $asOfDate = [datetime]::ParseExact($asOfMatch.Groups[1].Value, "yyyy-MM-dd", [System.Globalization.CultureInfo]::InvariantCulture)
+}
 $crmProviderIds = New-Object System.Collections.Generic.List[string]
 $crmInteractionCount = 0
 
@@ -101,8 +109,8 @@ foreach ($block in $crmBlocks) {
       Add-Issue "CRM has invalid date '$dateString' for provider $providerId."
       continue
     }
-    if ($parsedDate -gt $today) {
-      Add-Issue "CRM has future date '$dateString' for provider $providerId."
+    if ($parsedDate -gt $asOfDate) {
+      Add-Issue "CRM date '$dateString' for provider $providerId is after the as-of date $($asOfDate.ToString('yyyy-MM-dd'))."
     }
     if ($previousDate -and $parsedDate -lt $previousDate) {
       Add-Issue "CRM dates are out of order for provider $providerId."

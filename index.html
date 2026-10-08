@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tempus Sales Copilot | Account Prep Workspace</title>
+<link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -12,7 +14,7 @@
   --accent:#06D6A0;--accent-dim:rgba(6,214,160,0.12);--accent-glow:rgba(6,214,160,0.25);
   --danger:#EF4444;--danger-dim:rgba(239,68,68,0.14);
   --warning:#F59E0B;--warning-dim:rgba(245,158,11,0.14);
-  --text-primary:#EFF6FF;--text-secondary:#94A3B8;--text-dim:#475569;
+  --text-primary:#EFF6FF;--text-secondary:#94A3B8;--text-dim:#8795AB;
   --border:#1E2D42;--border-active:#06D6A0;
   --left-panel-width:340px;
   --rail-top-height:300px;
@@ -47,7 +49,7 @@ body[data-theme="light"]{
 .concept-pill{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:.7px;padding:3px 7px;border-radius:999px;border:1px solid rgba(6,214,160,0.35);background:var(--accent-dim);color:var(--accent)}
 .brand-note{font-size:11px;color:var(--text-dim);font-family:var(--font-sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .header-meta{font-size:13px;color:var(--text-secondary);font-family:var(--font-sans)}
-.data-sync{font-size:12px;color:var(--text-dim);font-family:var(--font-sans);opacity:0.92}
+.data-sync{font-size:12px;color:var(--text-dim);font-family:var(--font-sans)}
 .api-status{font-size:11px;font-family:var(--font-mono);padding:4px 10px;border-radius:4px;cursor:pointer;border:1px solid var(--border);background:var(--bg-card);transition:all .15s}
 .api-status.connected{color:var(--accent);border-color:var(--accent);background:var(--accent-dim)}
 .api-status.disconnected,.api-status.demo{color:var(--warning);border-color:var(--warning);background:var(--warning-dim)}
@@ -66,7 +68,8 @@ body[data-theme="light"]{
 .sidebar-stack{display:flex;flex-direction:column;gap:14px}
 .sidebar-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 8px 20px rgba(15,23,42,0.05)}
 .sidebar-card.secondary{background:var(--bg-card-hover)}
-.sidebar-header-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.sidebar-header-row{display:flex;justify-content:space-between;gap:8px 12px;align-items:flex-start;flex-wrap:wrap}
+.sidebar-header-row>div{flex:1 1 180px;min-width:0}
 .sidebar-title{font-size:14px;font-weight:600;color:var(--text-primary)}
 .sidebar-subtitle{font-size:13px;line-height:1.65;color:var(--text-dim);margin-top:6px}
 .sidebar-kpi-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
@@ -420,7 +423,7 @@ body[data-theme="light"] .score-summary-popover{background:#FFFFFF;border-color:
 
 /* ─── Header improvements ─── */
 .header{display:flex;align-items:center;justify-content:space-between;padding:11px 20px;background:var(--bg-secondary);border-bottom:1px solid var(--border);flex-shrink:0;gap:12px}
-.brand-note{font-size:11px;color:var(--text-dim);font-family:var(--font-sans);opacity:.85}
+.brand-note{font-size:11px;color:var(--text-dim);font-family:var(--font-sans)}
 .header-actions-group{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .api-status-btn{font-family:var(--font-mono);font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid;transition:all .15s}
 .api-status-btn.demo{color:var(--warning);border-color:rgba(245,158,11,.4);background:var(--warning-dim)}
@@ -464,7 +467,7 @@ body[data-theme="light"] .score-badge.low{background:rgba(20,108,99,.1);color:#1
 
 /* ─── Footer ─── */
 .footer{display:flex;align-items:center;justify-content:space-between;padding:7px 20px;background:var(--bg-secondary);border-top:1px solid var(--border);flex-shrink:0;font-size:11px;color:var(--text-dim);font-family:var(--font-mono);gap:12px;flex-wrap:wrap}
-.footer a{color:var(--accent);text-decoration:none;cursor:pointer}.footer a:hover{text-decoration:underline}
+.footer-link{background:none;border:0;padding:0;font:inherit;color:var(--accent);cursor:pointer}.footer-link:hover{text-decoration:underline}
 .kbd-hint{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .kbd{background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-size:10px;font-family:var(--font-mono);color:var(--text-secondary)}
 .providers-pane{display:flex;flex-direction:column;gap:14px}
@@ -487,6 +490,7 @@ body[data-theme="light"] .today-item{background:#FFFFFF;box-shadow:0 2px 6px rgb
 .provider-card:hover{background:var(--bg-card-hover);border-left-color:rgba(6,214,160,.35)}
 .provider-card.selected{border-left-color:var(--accent);background:var(--bg-card-hover);box-shadow:0 8px 22px rgba(6,214,160,.1)}
 body[data-theme="light"] .provider-card{box-shadow:0 2px 8px rgba(15,23,42,.05)}
+.provider-card:focus-visible,.footer-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ─── Surface section ─── */
 .surface-section{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 4px 16px rgba(15,23,42,.05)}
@@ -611,7 +615,7 @@ body[data-theme="light"] .soft-panel{background:#F8FAFC}
 .filter-pill.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
 .specialty-pill,.info-chip{font-family:var(--font-mono);font-size:10px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:rgba(100,116,139,.12);color:var(--text-secondary)}
 .specialty-pill{border-color:transparent;background:rgba(100,116,139,0.18)}
-.objection-tag{font-family:var(--font-mono);font-size:10px;padding:4px 10px;border-radius:999px;border:1px solid rgba(239,68,68,.22);background:var(--danger-dim);color:var(--danger)}
+.objection-tag{font-family:var(--font-mono);font-size:10px;padding:4px 10px;border-radius:999px;border:1px solid rgba(239,68,68,.22);background:var(--danger-dim);color:#F87171}
 .crm-note-type{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:rgba(100,116,139,.14);color:var(--text-secondary)}
 .objections-list,.interaction-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0}
 body[data-theme="light"] .filter-pill{background:#FFFFFF}
@@ -620,7 +624,7 @@ body[data-theme="light"] .specialty-pill,
 body[data-theme="light"] .info-chip,
 body[data-theme="light"] .crm-note-type{background:#F4F7FA;border-color:#E4EAF1;color:#475467}
 body[data-theme="light"] .specialty-pill{border-color:transparent}
-body[data-theme="light"] .objection-tag{border-color:#F3C9C4}
+body[data-theme="light"] .objection-tag{border-color:#F3C9C4;color:var(--danger)}
 .next-step-line{font-size:12px;color:var(--accent);margin-top:8px}
 .note-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .micro-copy{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);margin-top:8px}
@@ -678,8 +682,8 @@ body[data-theme="light"] .interaction-note{background:#F8FAFC}
 // Architecture overview:
 // - Pure client-side SPA with zero dependencies and no build step
 // - Deterministic provider ranking for auditable prioritization
-// AI: Claude claude-sonnet-4-20250514 via streaming SSE for 4 generative features
-// Design: Clinical Intelligence Terminal - Bloomberg meets precision medicine
+// - Local template drafts in Demo Mode; optional Claude streaming (CONFIG.model) for the
+//   prep summary, objection responses, intro script, 30-second pitch, and week plan
 // Data: Public Tempus product facts plus synthetic territory and CRM data
 
 // Configuration
@@ -688,17 +692,15 @@ const CONFIG = {
   apiVersion: "2023-06-01",
   maxTokens: 1024,
   temps: { rationale: 0.5, objections: 0.3, scripts: 0.7, weekPlan: 0.6 },
-  dataDate: "March 22, 2026",
-  dataSources: "Mock CSV, markdown, and CRM text inputs with embedded fallback",
+  // Recency is measured from this snapshot date so the ranking is reproducible.
+  asOfDate: "2026-03-22",
   repName: "Jordan Marks",
   territory: "Chicago Metro Territory"
 };
 
 const BRAND = {
   logoWhiteUrl: "https://www.tempus.com/wp-content/uploads/2022/09/Tempus-Logo_White.png",
-  mediaKitUrl: "https://www.tempus.com/resources/media-kit/",
-  conceptLabel: "Concept Prototype",
-  provenance: "Public Tempus sources • mock account data"
+  conceptLabel: "Concept Prototype"
 };
 
 const DATA_SOURCE_FILES = {
@@ -740,12 +742,10 @@ const LOCAL_INPUT_RULES = {
   ]
 };
 
-const CASE_STUDY_PROVIDER_IDS = ["P001","P003","P006","P008","P009","P011","P014","P015","P016","P025"];
 const MANUAL_API_KEY_KEY = "tempus_api_key";
 
 let dataSourceStatus = "Embedded case data";
 let aiAssetStatus = "Embedded AI prompts";
-let PRODUCT_KNOWLEDGE_MARKDOWN = "";
 let localDataHealth = {
   level: "warning",
   label: "Embedded Data",
@@ -753,211 +753,165 @@ let localDataHealth = {
 };
 const THEME_KEY = "tempus_theme";
 
-// Competitor intelligence
+// Competitor battlecards (strengths and Tempus edge are shown side by side)
 const COMPETITOR_DATA = {
   "Foundation Medicine": {
-    shortName: "FMI",
     strengths: ["Established brand recognition", "FDA-approved CDx for multiple indications", "FoundationOne CDx: 324 genes"],
-    weaknesses: ["DNA-only - misses RNA fusions (ALK, ROS1, RET, NTRK)", "No matched tumor-normal default positioning", "Trial matching is less operationally embedded than TIME", "Standard workflow can feel slower for fast-moving lung cases"],
-    tempusEdge: ["xT CDx: FDA-approved 648-gene panel", "xR adds RNA when fusion biology matters", "Tempus Hub and reporting keep the workflow action-oriented", "TIME adds trial-matching support"],
-    talkTrack: "FMI is familiar, but Tempus gives the rep a broader story: xT CDx for 648-gene DNA profiling, xR when RNA matters, and TIME when the account needs a concrete trial-matching next step."
+    tempusEdge: [
+      "648-gene xT CDx panel with tumor-normal matching",
+      "Pair xT with xR whole transcriptome RNA when fusion biology matters",
+      "TIME network adds trial activation and matching support",
+      "Action-focused reporting and HLA-aware trial cues"
+    ],
+    talkTrack: "FMI is familiar, but Tempus gives teams a wider operational toolkit: xT CDx for 648-gene DNA profiling, xR when RNA matters, and TIME when the question is not just what the biomarker is, but where the patient can go next."
   },
   "Guardant Health": {
-    shortName: "Guardant",
     strengths: ["Strong liquid biopsy brand (Guardant360)", "Fast TAT for blood-based testing", "74-gene panel established with oncologists"],
-    weaknesses: ["Blood-only - no tissue-based comprehensive profiling", "74 genes vs our 105 (xF) or 648 (xT)", "No RNA fusion detection", "Limited to monitoring - not primary dx"],
-    tempusEdge: ["xF: 105 genes at 0.1% VAF sensitivity", "Tissue + liquid complementary approach", "Full transcriptome RNA when tissue available", "Integrated ecosystem: xT + xF + action-oriented reporting"],
-    talkTrack: "Guardant pioneered liquid biopsy, and Guardant360 is solid for monitoring. But with 105 genes and 0.1% VAF sensitivity, xF gives you broader coverage - and when tissue is available, pairing with xT gives the complete molecular picture Guardant simply can't offer."
+    tempusEdge: [
+      "xF: 105-gene liquid biopsy",
+      "Use xF as the fast front door, then reflex to xT or xR when more depth is needed",
+      "RNA and tissue workflows close the gaps blood-only testing leaves open",
+      "Tempus reporting plus TIME give the rep a clearer next-step story"
+    ],
+    talkTrack: "Guardant is a familiar liquid-first workflow, so the win is not to fight that instinct. Start where the account already is with xF, then show how Tempus can add xT or xR when the case needs more than blood alone can provide."
   },
   "Caris Life Sciences": {
-    shortName: "Caris",
     strengths: ["MI Profile covers DNA, RNA, and protein", "Large real-world data network", "Established in community oncology"],
-    weaknesses: ["Slower turnaround can delay action", "Less cohesive workflow story for the rep", "Smaller liquid-biopsy complement", "Trial operations are less central to the pitch"],
-    tempusEdge: ["Action-oriented reporting", "TIME network for trial execution support", "Complementary xF liquid biopsy workflow", "Disease-specific DNA + RNA positioning"],
-    talkTrack: "Caris is credible, but Tempus is easier to position when the rep needs a cleaner workflow story: disease-specific testing, clearer reporting, and a more operational trial-matching motion."
+    tempusEdge: [
+      "Action-focused reporting tied to the next rep move",
+      "TIME network adds concrete trial activation support",
+      "RNA plus DNA story is easier to position disease by disease",
+      "Complementary xF liquid biopsy workflow"
+    ],
+    talkTrack: "Caris is credible, but Tempus is easier to position when the rep needs a cleaner workflow story: disease-specific testing, clearer reporting, and a more operational trial-matching motion through TIME."
   },
   "NeoGenomics": {
-    shortName: "Neo",
     strengths: ["Strong pathology/lab services reputation", "Regional relationships in community oncology", "Competitive pricing"],
-    weaknesses: ["Narrower gene panels", "Less comprehensive DNA + RNA positioning", "Smaller trial-matching story", "Less brand recognition in academic centers"],
     tempusEdge: ["648-gene panel breadth", "xR adds RNA sequencing", "Academic + community footprint", "Clinical-trial matching support"],
     talkTrack: "NeoGenomics has strong lab credibility, but Tempus is easier to position when the account needs broader profiling, RNA support, and a clearer path from result to next action."
   },
   "Myriad Genetics": {
-    shortName: "Myriad",
     strengths: ["Dominant in hereditary/germline testing (myChoice, BRACAnalysis)", "Strong genetic counseling network", "Established BRCA testing brand"],
-    weaknesses: ["Primarily germline - limited somatic tumor profiling", "No comprehensive genomic profiling for solid tumors", "No liquid biopsy", "Requires a multi-vendor story when the account wants one partner"],
-    tempusEdge: ["xT for somatic profiling", "Hereditary testing through Ambry, a Tempus company", "Full liquid-biopsy complement with xF", "Cleaner somatic + germline workflow across one commercial relationship"],
+    tempusEdge: [
+      "xT plus xG gives one partner across somatic and hereditary work",
+      "Tempus can still support liquid biopsy when the case needs it",
+      "The rep does not have to split the account story across separate vendors",
+      "Reporting stays tied to treatment and workflow decisions"
+    ],
     talkTrack: "Myriad owns hereditary testing, but Tempus is stronger when the account wants one partner across somatic, hereditary, and liquid-biopsy workflows instead of splitting the story across multiple vendors."
   }
 };
 
-Object.assign(COMPETITOR_DATA["Foundation Medicine"], {
-  weaknesses: [
-    "DNA-heavy workflow can miss RNA-only fusion signal",
-    "No matched tumor-normal default positioning",
-    "Trial matching is less operationally embedded than TIME",
-    "Standard workflow can feel slower for fast-moving lung cases"
-  ],
-  tempusEdge: [
-    "648-gene xT CDx panel with tumor-normal matching",
-    "Pair xT with xR whole transcriptome RNA when fusion biology matters",
-    "TIME network adds trial activation and matching support",
-    "Action-focused reporting and HLA-aware trial cues"
-  ],
-  talkTrack: "FMI is familiar, but Tempus gives teams a wider operational toolkit: xT CDx for 648-gene DNA profiling, xR when RNA matters, and TIME when the question is not just what the biomarker is, but where the patient can go next."
-});
+// Verbatim copies of data/market_intelligence.csv and data/crm_notes.txt, used when
+// the files cannot be fetched (for example when index.html is opened from disk).
+const EMBEDDED_MARKET_CSV = `"id","name","credentials","title","institution","hospital_system","city","state","specialty","top_cancer_types","est_monthly_patients","est_genomic_eligible","current_tempus_volume","competitor_volume","primary_competitor","payer_mix","tempus_relationship","recent_publications","notes_flag"
+"P001","Dr. Sarah Chen","MD, PhD","Director, Thoracic Oncology Program","Northwestern Memorial Hospital","Northwestern Medicine","Chicago","IL","Thoracic Oncology","NSCLC|Small Cell Lung Cancer|Mesothelioma",85,60,5,35,"Foundation Medicine","mixed","lapsed","Co-PI on KEYNOTE-789 NSCLC trial|Published in JCO on ctDNA monitoring",true
+"P003","Dr. Priya Patel","MD, MS","GI Oncology Section Head","University of Chicago Medicine","UChicago Medicine","Chicago","IL","GI/Colorectal Oncology","Colorectal Cancer|Pancreatic Cancer|Hepatocellular Carcinoma",72,55,30,10,"Caris Life Sciences","mixed","active","Published on MSI-H as predictor of immunotherapy response in CRC",true
+"P006","Dr. Raj Patel","MD","Director of Molecular Pathology","Northwestern Memorial Hospital","Northwestern Medicine","Chicago","IL","Pathology/Lab Director","All solid tumors (lab oversight)",0,120,30,60,"Foundation Medicine","mixed","active","Published on NGS validation protocols in CAP guidelines",true
+"P008","Dr. Robert Kim","DO","Community Oncologist","NorthShore University HealthSystem","NorthShore","Evanston","IL","General Oncology","Breast Cancer|Lung Cancer|Prostate Cancer",35,20,2,10,"Guardant Health","mostly_medicare","lapsed","",true
+"P009","Dr. Alejandra Reyes","MD, MPH","Head and Neck Oncology Lead","Rush University Medical Center","Rush","Chicago","IL","Head & Neck Oncology","Oropharyngeal SCC|Thyroid Cancer|Salivary Gland Tumors",40,28,10,8,"Caris Life Sciences","mixed","active","HPV+ oropharyngeal de-escalation trial PI",true
+"P011","Dr. Catherine Osei","MD","Hematologic Malignancies Attending","Loyola University Medical Center","Loyola Medicine","Maywood","IL","Hematologic Malignancies","AML|MDS|CLL/SLL",50,35,5,20,"Foundation Medicine","mixed","lapsed","Published on FLT3/IDH targeted combos in AML",true
+"P014","Dr. David Greenbaum","MD, PhD","Thoracic Surgery & Oncology","Rush University Medical Center","Rush","Chicago","IL","Thoracic Oncology","NSCLC|Thymoma|Esophageal Cancer",50,35,8,18,"Guardant Health","mixed","lapsed","Surgical outcomes in stage IIIA NSCLC post-neoadjuvant IO",true
+"P015","Dr. Angela Park","MD","Breast Oncology Attending","Northwestern Memorial Hospital","Northwestern Medicine","Chicago","IL","Breast Oncology","HR+ Breast Cancer|TNBC|Inflammatory Breast Cancer",75,55,35,8,"Foundation Medicine","mostly_commercial","champion","ESR1 mutation tracking with ctDNA in ER+ mBC|Co-author CDK4/6i real-world outcomes study",true
+"P016","Dr. Frank DiMaggio","MD","Medical Director, Cancer Center","NorthShore University HealthSystem","NorthShore","Evanston","IL","General Oncology","Lung Cancer|GI Cancers|Breast Cancer",55,38,3,22,"Foundation Medicine","mixed","lapsed","",true
+"P025","Dr. Rachel Goldstein","MD","Breast Surgical Oncology","Lurie Cancer Center at Northwestern","Northwestern Medicine","Chicago","IL","Breast Oncology","Early-Stage Breast Cancer|DCIS|TNBC",80,50,15,20,"Myriad Genetics","mostly_commercial","active","Genomic profiling impact on surgical decision-making in early breast cancer",true`;
+const EMBEDDED_CRM_NOTES = `provider_id: P001
+provider_name: Dr. Sarah Chen
+2025-11-15 | conference | Jordan Marks | warm | competitor_loyalty, needs_comparison_data | Send xF vs Guardant comparison; Schedule TIME trial demo
+Met at ASTRO. Dr. Chen was interested in xF for monitoring Stage IV NSCLC patients post-pembrolizumab, but she said the team is comfortable with Guardant360 and does not want extra workflow change unless the value is obvious. She asked for side-by-side data and also brought up trial matching because she has a few patients she still cannot place.
+---
+2026-01-22 | email | Jordan Marks | hot |  | Set up pilot program; Coordinate with lab director Dr. Raj Patel
+Sent comparison data. Dr. Chen replied asking about specimen requirements because the clinic already keeps Streck tubes on hand. After I confirmed we use Streck, she said she would likely try xF on a small five-patient pilot next quarter if compliance does not drag.
+---
+2026-03-05 | phone | Jordan Marks | hot |  | Follow up on compliance approval; Prepare onboarding materials
+Quick check-in call. Pilot paperwork is in compliance review, so timing is still a little loose. Dr. Chen mentioned she showed our comparison slide at tumor board and the reaction was positive, but she wants the operational details settled before she commits to dates.
+===
+provider_id: P003
+provider_name: Dr. Priya Patel
+2025-10-08 | in-person | Jordan Marks | warm | turnaround_time | Send STAT pricing and logistics info; Connect with lab team on STAT workflow
+Office visit. Dr. Patel is running 30 tests per month through us, mostly CRC and pancreatic. She wants to expand to HCC but is concerned about turnaround time for treatment-naive patients who need to start systemic therapy quickly.
+---
+2025-12-12 | phone | Jordan Marks | warm | turnaround_time, cost_reimbursement | Get STAT billing and coverage details from reimbursement team
+Discussed the STAT option and 5-7 day turnaround. She liked the speed but pushed on whether the faster workflow changes patient cost or creates extra authorization friction for her staff.
+---
+2026-02-18 | email | Jordan Marks | hot |  | Monitor STAT cases; Share MSI and TMB clinical data
+Sent STAT coverage information. Dr. Patel said she would start with three treatment-naive HCC cases rather than a broader change and also asked for a cleaner summary of MSI and TMB reporting for IO candidacy.
+===
+provider_id: P006
+provider_name: Dr. Raj Patel
+2025-10-30 | in-person | Jordan Marks | warm | competitor_loyalty, cost_reimbursement | Escalate pricing discussion to regional VP; Prepare volume-based proposal
+Met with Dr. Patel, the lab director, to discuss expanding Tempus utilization across Northwestern. He controls test routing. Current split is 30 Tempus and 60 Foundation Medicine tests per month. Main blocker is favorable enterprise pricing with the incumbent.
+---
+2026-02-05 | email | Jordan Marks | warm | competitor_loyalty | Follow up on proposal review; Prepare for Q3 Foundation Medicine contract renewal window
+Sent a volume-based pricing proposal for an 80+ tests per month commitment. Dr. Patel said administration is reviewing it, but the pace is slow. He did call out RNA integration and the report summary workflow as the pieces that make this more than a pricing conversation.
+===
+provider_id: P008
+provider_name: Dr. Robert Kim
+2025-08-15 | phone | Jordan Marks | cold | specimen_requirements, competitor_loyalty | Send info on xF liquid biopsy as tissue-free alternative
+Cold call. Dr. Kim said he used Tempus a couple of years ago but moved most volume to Guardant because his office wanted a simpler blood-draw-first workflow and less tissue coordination for staff.
+---
+2025-11-20 | email | Jordan Marks | warm | cost_reimbursement | Send Medicare coverage guide; Schedule brief demo call
+Followed up with xF information. Dr. Kim said he had not realized Tempus now had a liquid-biopsy option that looked close enough to evaluate. His first question was still Medicare coverage for his mostly elderly patient population.
+---
+2026-01-15 | phone | Jordan Marks | warm |  | Set up account for xF ordering; Follow up after first 3 cases
+Demo call on xF workflow. Dr. Kim liked the simplicity: Streck tubes, ship to Tempus, and 5-7 day results. He said he would try it on three patients first before changing his default habit.
+===
+provider_id: P009
+provider_name: Dr. Alejandra Reyes
+2025-12-05 | in-person | Jordan Marks | warm | report_complexity | Share Tempus Hub walkthrough for simplified views; Offer NP and PA training session
+Met at Rush. Dr. Reyes orders around 10 tests per month through us for head and neck cases. Her concern is that NPs and PAs struggle with the full xT report because it feels too dense.
+---
+2026-02-28 | phone | Jordan Marks | hot |  | Follow up on NP ordering workflow; Check volume trend in 60 days
+Completed a 30-minute training session for her 3 NPs on reading the Tempus report summary page. They found it much more accessible than the full variant table.
+===
+provider_id: P011
+provider_name: Dr. Catherine Osei
+2025-09-10 | conference | Jordan Marks | warm | turnaround_time | Send heme panel comparison data; Highlight STAT option for AML
+Met at an ASH satellite symposium. Dr. Osei does mostly AML and MDS and was frustrated with 18-20 day turnaround from FoundationOne Heme. Her AML patients need rapid mutation profiling for targeted therapy selection.
+---
+2026-01-08 | email | Jordan Marks | hot |  | Coordinate STAT pilot with lab ops; Monitor turnaround time performance closely
+Sent heme comparison and STAT turnaround data. Dr. Osei replied that if we can consistently deliver FLT3 and IDH results in under 7 days, she will switch her next 10 AML workups.
+===
+provider_id: P014
+provider_name: Dr. David Greenbaum
+2025-11-01 | in-person | Jordan Marks | cold | clinical_utility_skepticism, competitor_loyalty | Prepare case study on unexpected findings from broad panel in NSCLC; Share NCI-MATCH enrollment data
+Met at a Rush thoracic conference. Dr. Greenbaum orders 8 tests per month through us but sends 18 to Guardant. He said broad-panel language does not land with him unless it changes treatment beyond the standard EGFR, ALK, ROS1, and PD-L1 workup.
+---
+2026-01-25 | email | Jordan Marks | warm | clinical_utility_skepticism | Schedule lunch meeting; Bring MSL for clinical discussion
+Sent three de-identified case examples where xT found actionable mutations outside the standard NSCLC panel. Dr. Greenbaum said the cases were more compelling than the generic deck and agreed to a lunch meeting if we kept the discussion clinical.
+---
+2026-03-15 | in-person | Jordan Marks | warm |  | Monitor dual-testing cases; Follow up on results satisfaction
+Lunch meeting with an MSL. Dr. Greenbaum said the RNA-fusion story made more sense once it was tied to real NSCLC misses. He agreed to send the next five surgical biopsies through xT alongside Guardant liquid biopsy before making a bigger routing decision.
+===
+provider_id: P015
+provider_name: Dr. Angela Park
+2025-10-20 | in-person | Jordan Marks | hot |  | Work with lab on reflex testing protocol; Prepare presentation for breast tumor board
+Quarterly check-in with Dr. Park. She is ordering 35 tests per month and wants to set up automatic reflex testing: xT at diagnosis and xF every 3 months for ESR1 mutation monitoring in ER+ metastatic patients.
+---
+2026-02-15 | in-person | Jordan Marks | hot |  | Follow up with breast surgeons; Document reflex testing workflow for other sites
+Presented the reflex-testing protocol at breast tumor board. Dr. Park offered to loop me into a few breast surgeons who handle the initial biopsies, which could help us get tissue earlier if the workflow stays simple for their teams.
+===
+provider_id: P016
+provider_name: Dr. Frank DiMaggio
+2025-09-05 | phone | Jordan Marks | cold | competitor_loyalty | Research NorthShore testing patterns; Identify unique value proposition versus Foundation Medicine
+Initial outreach to Dr. DiMaggio, medical director at the NorthShore cancer center. He is a longtime Foundation Medicine user and said they are happy with their current vendor.
+---
+2025-12-18 | email | Jordan Marks | warm | competitor_loyalty | Schedule January meeting; Prepare site-specific ROI analysis
+Sent a customized analysis showing how many of NorthShore's lung, GI, and breast cancer cases could benefit from RNA integration that Foundation Medicine does not offer.
+---
+2026-02-10 | in-person | Jordan Marks | warm | needs_comparison_data | Set up 20-patient pilot; Ensure EMR integration is smooth
+In-person meeting at NorthShore. Dr. DiMaggio brought the tumor board coordinator. They want seamless EMR connectivity and proof that the workflow works in their patient population before committing.
+===
+provider_id: P025
+provider_name: Dr. Rachel Goldstein
+2025-12-10 | in-person | Jordan Marks | warm |  | Send xG product info and workflow; Show somatic and germline integration value
+Met Dr. Goldstein at a Northwestern breast surgery conference. She orders around 15 tests per month through us for surgical planning but still sends germline BRCA testing to Myriad. She did not realize we offer xG.
+---
+2026-02-20 | phone | Jordan Marks | hot |  | Set up xG ordering; Coordinate Lynch screening protocol with GI team
+Discussed xG and xT integration benefits: one sample, one report, and germline findings contextualized with somatic results. She said the next set of BRCA referrals should move from Myriad to xG if ordering setup is straightforward and her team does not need extra hand-holding.`;
 
-Object.assign(COMPETITOR_DATA["Guardant Health"], {
-  tempusEdge: [
-    "xF: 105-gene liquid biopsy",
-    "Use xF as the fast front door, then reflex to xT or xR when more depth is needed",
-    "RNA and tissue workflows close the gaps blood-only testing leaves open",
-    "Tempus reporting plus TIME give the rep a clearer next-step story"
-  ],
-  talkTrack: "Guardant is a familiar liquid-first workflow, so the win is not to fight that instinct. Start where the account already is with xF, then show how Tempus can add xT or xR when the case needs more than blood alone can provide."
-});
-
-Object.assign(COMPETITOR_DATA["Caris Life Sciences"], {
-  tempusEdge: [
-    "Action-focused reporting tied to the next rep move",
-    "TIME network adds concrete trial activation support",
-    "RNA plus DNA story is easier to position disease by disease",
-    "Complementary xF liquid biopsy workflow"
-  ],
-  talkTrack: "Caris is credible, but Tempus is easier to position when the rep needs a cleaner workflow story: disease-specific testing, clearer reporting, and a more operational trial-matching motion through TIME."
-});
-
-Object.assign(COMPETITOR_DATA["Myriad Genetics"], {
-  tempusEdge: [
-    "xT plus xG gives one partner across somatic and hereditary work",
-    "Tempus can still support liquid biopsy when the case needs it",
-    "The rep does not have to split the account story across separate vendors",
-    "Reporting stays tied to treatment and workflow decisions"
-  ]
-});
-
-// Market intelligence - 25 provider profiles
-const DEFAULT_MARKET_INTELLIGENCE = [
-  { id:"P001", name:"Dr. Sarah Chen", credentials:"MD, PhD", title:"Director, Thoracic Oncology Program", institution:"Northwestern Memorial Hospital", hospital_system:"Northwestern Medicine", city:"Chicago", state:"IL", specialty:"Thoracic Oncology", top_cancer_types:["NSCLC","Small Cell Lung Cancer","Mesothelioma"], est_monthly_patients:85, est_genomic_eligible:60, current_tempus_volume:5, competitor_volume:35, primary_competitor:"Foundation Medicine", payer_mix:"mixed", tempus_relationship:"lapsed", recent_publications:["Co-PI on KEYNOTE-789 NSCLC trial","Published in JCO on ctDNA monitoring"], notes_flag:true },
-  { id:"P002", name:"Dr. Marcus Rivera", credentials:"MD", title:"Chief of Breast Oncology", institution:"Rush University Medical Center", hospital_system:"Rush", city:"Chicago", state:"IL", specialty:"Breast Oncology", top_cancer_types:["Triple-Negative Breast Cancer","HR+ Breast Cancer","HER2+ Breast Cancer"], est_monthly_patients:95, est_genomic_eligible:70, current_tempus_volume:0, competitor_volume:45, primary_competitor:"Foundation Medicine", payer_mix:"mostly_commercial", tempus_relationship:"new_prospect", recent_publications:["Phase II trial on sacituzumab govitecan in mTNBC","ASCO poster on ESR1 mutations and endocrine resistance"], notes_flag:false },
-  { id:"P003", name:"Dr. Priya Patel", credentials:"MD, MS", title:"GI Oncology Section Head", institution:"University of Chicago Medicine", hospital_system:"UChicago Medicine", city:"Chicago", state:"IL", specialty:"GI/Colorectal Oncology", top_cancer_types:["Colorectal Cancer","Pancreatic Cancer","Hepatocellular Carcinoma"], est_monthly_patients:72, est_genomic_eligible:55, current_tempus_volume:30, competitor_volume:10, primary_competitor:"Caris Life Sciences", payer_mix:"mixed", tempus_relationship:"active", recent_publications:["Published on MSI-H as predictor of immunotherapy response in CRC"], notes_flag:true },
-  { id:"P004", name:"Dr. James Okafor", credentials:"MD", title:"Attending Oncologist", institution:"Advocate Christ Medical Center", hospital_system:"Advocate Aurora", city:"Oak Lawn", state:"IL", specialty:"General Oncology", top_cancer_types:["NSCLC","Breast Cancer","Colorectal Cancer"], est_monthly_patients:45, est_genomic_eligible:30, current_tempus_volume:0, competitor_volume:8, primary_competitor:"NeoGenomics", payer_mix:"mostly_medicare", tempus_relationship:"new_prospect", recent_publications:[], notes_flag:false },
-  { id:"P005", name:"Dr. Emily Whitfield", credentials:"MD, PhD", title:"Director of Melanoma Program", institution:"Northwestern Memorial Hospital", hospital_system:"Northwestern Medicine", city:"Chicago", state:"IL", specialty:"Melanoma/Cutaneous Oncology", top_cancer_types:["Melanoma","Merkel Cell Carcinoma","Cutaneous SCC"], est_monthly_patients:60, est_genomic_eligible:45, current_tempus_volume:25, competitor_volume:5, primary_competitor:"Foundation Medicine", payer_mix:"mostly_commercial", tempus_relationship:"champion", recent_publications:["Lead author on BRAF/MEK combo in adjuvant melanoma","Co-PI on TIL therapy trial at Northwestern"], notes_flag:true },
-  { id:"P006", name:"Dr. Raj Patel", credentials:"MD", title:"Director of Molecular Pathology", institution:"Northwestern Memorial Hospital", hospital_system:"Northwestern Medicine", city:"Chicago", state:"IL", specialty:"Pathology/Lab Director", top_cancer_types:["All solid tumors (lab oversight)"], est_monthly_patients:0, est_genomic_eligible:120, current_tempus_volume:30, competitor_volume:60, primary_competitor:"Foundation Medicine", payer_mix:"mixed", tempus_relationship:"active", recent_publications:["Published on NGS validation protocols in CAP guidelines"], notes_flag:true },
-  { id:"P007", name:"Dr. Lisa Nakamura", credentials:"MD", title:"Gynecologic Oncology Fellowship Director", institution:"University of Chicago Medicine", hospital_system:"UChicago Medicine", city:"Chicago", state:"IL", specialty:"Gynecologic Oncology", top_cancer_types:["Ovarian Cancer","Endometrial Cancer","Cervical Cancer"], est_monthly_patients:55, est_genomic_eligible:40, current_tempus_volume:0, competitor_volume:20, primary_competitor:"Myriad Genetics", payer_mix:"mixed", tempus_relationship:"new_prospect", recent_publications:["NCCN panel member for ovarian cancer","Published on BRCA reversion mutations and PARPi resistance"], notes_flag:false },
-  { id:"P008", name:"Dr. Robert Kim", credentials:"DO", title:"Community Oncologist", institution:"NorthShore University HealthSystem", hospital_system:"NorthShore", city:"Evanston", state:"IL", specialty:"General Oncology", top_cancer_types:["Breast Cancer","Lung Cancer","Prostate Cancer"], est_monthly_patients:35, est_genomic_eligible:20, current_tempus_volume:2, competitor_volume:10, primary_competitor:"Guardant Health", payer_mix:"mostly_medicare", tempus_relationship:"lapsed", recent_publications:[], notes_flag:true },
-  { id:"P009", name:"Dr. Alejandra Reyes", credentials:"MD, MPH", title:"Head and Neck Oncology Lead", institution:"Rush University Medical Center", hospital_system:"Rush", city:"Chicago", state:"IL", specialty:"Head & Neck Oncology", top_cancer_types:["Oropharyngeal SCC","Thyroid Cancer","Salivary Gland Tumors"], est_monthly_patients:40, est_genomic_eligible:28, current_tempus_volume:10, competitor_volume:8, primary_competitor:"Caris Life Sciences", payer_mix:"mixed", tempus_relationship:"active", recent_publications:["HPV+ oropharyngeal de-escalation trial PI"], notes_flag:true },
-  { id:"P010", name:"Dr. William Foster", credentials:"MD, PhD", title:"Neuro-Oncology Program Director", institution:"Northwestern Memorial Hospital", hospital_system:"Northwestern Medicine", city:"Chicago", state:"IL", specialty:"Neuro-Oncology", top_cancer_types:["Glioblastoma","Oligodendroglioma","Brain Metastases"], est_monthly_patients:30, est_genomic_eligible:25, current_tempus_volume:0, competitor_volume:15, primary_competitor:"Foundation Medicine", payer_mix:"mostly_commercial", tempus_relationship:"new_prospect", recent_publications:["Published on MGMT methylation and TMZ response","IDH-mutant glioma targeted therapy trial co-PI"], notes_flag:false },
-  { id:"P011", name:"Dr. Catherine Osei", credentials:"MD", title:"Hematologic Malignancies Attending", institution:"Loyola University Medical Center", hospital_system:"Loyola Medicine", city:"Maywood", state:"IL", specialty:"Hematologic Malignancies", top_cancer_types:["AML","MDS","CLL/SLL"], est_monthly_patients:50, est_genomic_eligible:35, current_tempus_volume:5, competitor_volume:20, primary_competitor:"Foundation Medicine", payer_mix:"mixed", tempus_relationship:"lapsed", recent_publications:["Published on FLT3/IDH targeted combos in AML"], notes_flag:true },
-  { id:"P012", name:"Dr. Michael Torres", credentials:"MD", title:"GU Oncology Lead", institution:"University of Chicago Medicine", hospital_system:"UChicago Medicine", city:"Chicago", state:"IL", specialty:"GU/Prostate Oncology", top_cancer_types:["Prostate Cancer","Bladder Cancer","Renal Cell Carcinoma"], est_monthly_patients:65, est_genomic_eligible:45, current_tempus_volume:20, competitor_volume:15, primary_competitor:"Guardant Health", payer_mix:"mostly_commercial", tempus_relationship:"active", recent_publications:["PARP inhibitor combo trial in mCRPC","Published on BRCA2 in aggressive prostate phenotype"], notes_flag:true },
-  { id:"P013", name:"Dr. Hannah Johansson", credentials:"MD", title:"Attending Oncologist", institution:"Advocate Christ Medical Center", hospital_system:"Advocate Aurora", city:"Oak Lawn", state:"IL", specialty:"General Oncology", top_cancer_types:["Breast Cancer","Lung Cancer","GI Cancers"], est_monthly_patients:40, est_genomic_eligible:25, current_tempus_volume:0, competitor_volume:5, primary_competitor:"NeoGenomics", payer_mix:"mostly_medicare", tempus_relationship:"new_prospect", recent_publications:[], notes_flag:false },
-  { id:"P014", name:"Dr. David Greenbaum", credentials:"MD, PhD", title:"Thoracic Surgery & Oncology", institution:"Rush University Medical Center", hospital_system:"Rush", city:"Chicago", state:"IL", specialty:"Thoracic Oncology", top_cancer_types:["NSCLC","Thymoma","Esophageal Cancer"], est_monthly_patients:50, est_genomic_eligible:35, current_tempus_volume:8, competitor_volume:18, primary_competitor:"Guardant Health", payer_mix:"mixed", tempus_relationship:"lapsed", recent_publications:["Surgical outcomes in stage IIIA NSCLC post-neoadjuvant IO"], notes_flag:true },
-  { id:"P015", name:"Dr. Angela Park", credentials:"MD", title:"Breast Oncology Attending", institution:"Northwestern Memorial Hospital", hospital_system:"Northwestern Medicine", city:"Chicago", state:"IL", specialty:"Breast Oncology", top_cancer_types:["HR+ Breast Cancer","TNBC","Inflammatory Breast Cancer"], est_monthly_patients:75, est_genomic_eligible:55, current_tempus_volume:35, competitor_volume:8, primary_competitor:"Foundation Medicine", payer_mix:"mostly_commercial", tempus_relationship:"champion", recent_publications:["ESR1 mutation tracking with ctDNA in ER+ mBC","Co-author CDK4/6i real-world outcomes study"], notes_flag:true },
-  { id:"P016", name:"Dr. Frank DiMaggio", credentials:"MD", title:"Medical Director, Cancer Center", institution:"NorthShore University HealthSystem", hospital_system:"NorthShore", city:"Evanston", state:"IL", specialty:"General Oncology", top_cancer_types:["Lung Cancer","GI Cancers","Breast Cancer"], est_monthly_patients:55, est_genomic_eligible:38, current_tempus_volume:3, competitor_volume:22, primary_competitor:"Foundation Medicine", payer_mix:"mixed", tempus_relationship:"lapsed", recent_publications:[], notes_flag:true },
-  { id:"P017", name:"Dr. Natasha Volkov", credentials:"MD, PhD", title:"Director, Immunotherapy Research", institution:"University of Chicago Medicine", hospital_system:"UChicago Medicine", city:"Chicago", state:"IL", specialty:"Melanoma/Immuno-Oncology", top_cancer_types:["Melanoma","RCC","MSI-H Tumors"], est_monthly_patients:48, est_genomic_eligible:38, current_tempus_volume:18, competitor_volume:10, primary_competitor:"Foundation Medicine", payer_mix:"mostly_commercial", tempus_relationship:"active", recent_publications:["TMB as biomarker for IO response across tumor types","Co-PI on novel anti-LAG3 combo trial"], notes_flag:true },
-  { id:"P018", name:"Dr. Samuel Achebe", credentials:"MD", title:"Hematologist-Oncologist", institution:"Loyola University Medical Center", hospital_system:"Loyola Medicine", city:"Maywood", state:"IL", specialty:"Hematologic Malignancies", top_cancer_types:["Multiple Myeloma","NHL","Hodgkin Lymphoma"], est_monthly_patients:42, est_genomic_eligible:28, current_tempus_volume:0, competitor_volume:12, primary_competitor:"NeoGenomics", payer_mix:"mixed", tempus_relationship:"new_prospect", recent_publications:["CAR-T outcomes in relapsed DLBCL"], notes_flag:false },
-  { id:"P019", name:"Dr. Karen Lindqvist", credentials:"MD", title:"Pediatric Oncology Division Chief", institution:"Lurie Children's Hospital", hospital_system:"Northwestern Medicine", city:"Chicago", state:"IL", specialty:"Pediatric Oncology", top_cancer_types:["Neuroblastoma","Wilms Tumor","Pediatric Sarcomas","Pediatric Brain Tumors"], est_monthly_patients:25, est_genomic_eligible:18, current_tempus_volume:0, competitor_volume:8, primary_competitor:"Foundation Medicine", payer_mix:"mostly_commercial", tempus_relationship:"lapsed", recent_publications:["Fusion-driven pediatric cancers and targeted therapy opportunities"], notes_flag:true },
-  { id:"P020", name:"Dr. Thomas Brennan", credentials:"MD", title:"Clinical Pathologist", institution:"Rush University Medical Center", hospital_system:"Rush", city:"Chicago", state:"IL", specialty:"Pathology/Lab Director", top_cancer_types:["All solid tumors (lab oversight)"], est_monthly_patients:0, est_genomic_eligible:85, current_tempus_volume:0, competitor_volume:50, primary_competitor:"Foundation Medicine", payer_mix:"mixed", tempus_relationship:"new_prospect", recent_publications:["NGS implementation in community hospital pathology labs"], notes_flag:false },
-  { id:"P021", name:"Dr. Grace Adebayo", credentials:"MD", title:"Attending Oncologist", institution:"Advocate Christ Medical Center", hospital_system:"Advocate Aurora", city:"Oak Lawn", state:"IL", specialty:"GI/Colorectal Oncology", top_cancer_types:["Colorectal Cancer","Gastric Cancer","Esophageal Cancer"], est_monthly_patients:38, est_genomic_eligible:26, current_tempus_volume:8, competitor_volume:10, primary_competitor:"Caris Life Sciences", payer_mix:"mostly_medicare", tempus_relationship:"active", recent_publications:[], notes_flag:true },
-  { id:"P022", name:"Dr. Steven Marks", credentials:"MD", title:"Lung Cancer Screening Program Director", institution:"Loyola University Medical Center", hospital_system:"Loyola Medicine", city:"Maywood", state:"IL", specialty:"Thoracic Oncology", top_cancer_types:["NSCLC","Small Cell Lung Cancer"], est_monthly_patients:55, est_genomic_eligible:40, current_tempus_volume:12, competitor_volume:18, primary_competitor:"Guardant Health", payer_mix:"mixed", tempus_relationship:"lapsed", recent_publications:["Low-dose CT screening outcomes in high-risk populations"], notes_flag:true },
-  { id:"P023", name:"Dr. Mei-Ling Huang", credentials:"MD, PhD", title:"Sarcoma Program Director", institution:"Northwestern Memorial Hospital", hospital_system:"Northwestern Medicine", city:"Chicago", state:"IL", specialty:"Sarcoma/Rare Tumors", top_cancer_types:["Soft Tissue Sarcoma","GIST","Bone Sarcomas"], est_monthly_patients:22, est_genomic_eligible:18, current_tempus_volume:12, competitor_volume:3, primary_competitor:"Foundation Medicine", payer_mix:"mostly_commercial", tempus_relationship:"champion", recent_publications:["RNA fusions in undifferentiated sarcomas","NTRK inhibitor response in TRK-fusion sarcomas"], notes_flag:true },
-  { id:"P024", name:"Dr. Daniel Wu", credentials:"MD", title:"Community Oncologist", institution:"NorthShore University HealthSystem", hospital_system:"NorthShore", city:"Glenview", state:"IL", specialty:"General Oncology", top_cancer_types:["Prostate Cancer","Lung Cancer","Breast Cancer"], est_monthly_patients:30, est_genomic_eligible:18, current_tempus_volume:0, competitor_volume:6, primary_competitor:"Guardant Health", payer_mix:"mostly_medicare", tempus_relationship:"lapsed", recent_publications:[], notes_flag:false },
-  { id:"P025", name:"Dr. Rachel Goldstein", credentials:"MD", title:"Breast Surgical Oncology", institution:"Lurie Cancer Center at Northwestern", hospital_system:"Northwestern Medicine", city:"Chicago", state:"IL", specialty:"Breast Oncology", top_cancer_types:["Early-Stage Breast Cancer","DCIS","TNBC"], est_monthly_patients:80, est_genomic_eligible:50, current_tempus_volume:15, competitor_volume:20, primary_competitor:"Myriad Genetics", payer_mix:"mostly_commercial", tempus_relationship:"active", recent_publications:["Genomic profiling impact on surgical decision-making in early breast cancer"] , notes_flag:true }
-];
-
-let MARKET_INTELLIGENCE = DEFAULT_MARKET_INTELLIGENCE
-  .filter(provider => CASE_STUDY_PROVIDER_IDS.includes(provider.id))
-  .map(provider => ({ ...provider, top_cancer_types:[...provider.top_cancer_types], recent_publications:[...provider.recent_publications] }));
-
-// Product knowledge base
-const PRODUCT_KNOWLEDGE = {};
-
-Object.assign(PRODUCT_KNOWLEDGE, {
-  xT: {
-    full_name:"xT CDx",
-    type:"FDA-approved solid tumor DNA profiling",
-    genes:"648-gene tissue-based DNA panel",
-    turnaround_time:"Public Tempus oncology materials describe genomic profiling workflows as typically reporting in about 10-14 days after specimen receipt",
-    specimen:"FFPE tumor tissue with matched normal blood or saliva",
-    key_differentiators:[
-      "FDA-approved 648-gene NGS test for malignant solid tumors",
-      "Tumor + normal matched approach with MSI status",
-      "Companion diagnostic claims for select colorectal cancer indications",
-      "Professional services can add TMB, HLA class I genotyping, CNVs, rearrangements in 22 genes, potential germline findings, and therapy and trial matching insights"
-    ],
-    fda_status:"FDA-approved companion diagnostic workflow for select colorectal cancer indications",
-    insurance:"Tempus supports Medicare and major commercial payer workflows plus financial assistance resources",
-    best_for:["NSCLC","Breast","Colorectal","Ovarian","Prostate","Melanoma","GI cancers","Solid tumors"]
-  },
-  xR: {
-    full_name:"xR",
-    type:"Whole transcriptome RNA sequencing",
-    genes:"Whole transcriptome RNA sequencing for solid tumors and hematologic malignancies",
-    turnaround_time:"Provider-facing materials emphasize flexible standalone or xT-paired ordering rather than a single published turnaround metric",
-    specimen:"FFPE tumor tissue with standalone or combination ordering alongside xT",
-    key_differentiators:[
-      "Reports clinically relevant fusions across more than 100 targeted genes",
-      "Detects MET exon 14 and EGFRvIII altered splicing",
-      "Public Tempus materials say DNA + RNA sequencing identified 21% more patients with driver fusions eligible for FDA-approved targeted therapies than DNA sequencing alone",
-      "Can be ordered standalone or in combination with xT"
-    ],
-    best_for:["NSCLC","Sarcomas","Pediatric tumors","Tumors of unknown primary","Thyroid","AML","MDS","Rare tumors"]
-  },
-  xF: {
-    full_name:"xF / xF+",
-    type:"Liquid biopsy for solid tumors",
-    genes:"105-gene xF panel and 523-gene xF+ panel for ctDNA profiling",
-    turnaround_time:"Blood-based Tempus workflows are positioned for rapid turnaround after specimen receipt",
-    specimen:"Peripheral blood; the public xF clinical overview specifies two Streck tubes for xF",
-    sensitivity:"Tempus xF+ published validation reports 98.3% sensitivity for SNVs at >=0.2% VAF",
-    key_differentiators:[
-      "Useful when tissue is limited or therapy decisions cannot wait",
-      "Complements tissue testing; public Tempus materials report unique actionable findings detected in liquid biopsy that were not seen in tissue alone in some metastatic cases",
-      "Supports serial monitoring and resistance tracking"
-    ],
-    best_for:["NSCLC","Monitoring treatment response","Detecting resistance mutations","Stage IV patients with inaccessible tumors","mCRPC","Liquid-first workflows"]
-  },
-  xG: {
-    full_name:"Tempus hereditary testing powered by Ambry Genetics",
-    type:"Hereditary and germline testing",
-    genes:"CancerNext 40-gene or CancerNext-Expanded 77-gene hereditary cancer panels, with optional RNAinsight",
-    turnaround_time:"~5-14 days after specimen receipt for CancerNext and CancerNext-Expanded",
-    specimen:"Blood, saliva, or skin punch biopsy (cultured fibroblasts)",
-    key_differentiators:[
-      "Performed by Ambry Genetics, a Tempus company",
-      "Validated germline confirmation for potential hereditary findings",
-      "Optional RNAinsight supports variant interpretation",
-      "Supports hereditary risk assessment across breast, ovarian, pancreatic, prostate, colorectal, endometrial, gastric, small bowel, urothelial, and renal cancers"
-    ],
-    best_for:["Breast","Ovarian","Colorectal","Prostate","Pancreatic","Lynch syndrome"]
-  },
-  xH: {
-    full_name:"xH",
-    type:"Publicly described whole genome sequencing assay for hematologic malignancies",
-    genes:"Whole genome sequencing",
-    turnaround_time:"Used here as background context only; the prototype's heme messaging leans on publicly available xR and ordering workflow materials",
-    specimen:"Blood or bone marrow",
-    sensitivity:"97.29% PPA for SNVs and indels; 92.86% for structural variants in validation",
-    key_differentiators:[
-      "Optimized for AML, MDS, MPN, and overlap syndromes",
-      "Whole-genome view captures SNVs, indels, copy-number changes, and structural variants",
-      "Included as public product context rather than a primary provider-facing recommendation in this concept build"
-    ],
-    best_for:["AML","MDS","MPN","MDS/MPN","Myeloid malignancies"]
-  },
-  TIME_Trial_Program: {
-    full_name:"TIME Trial Network",
-    description:"Tempus clinical-trial matching and network support for patient identification and trial execution.",
-    value_prop:"Connects matched patients to active research opportunities and helps sites operationalize enrollment.",
-    key_stat:"Public Tempus clinical-development materials highlight 5M+ cancer patients covered by the TIME network and ~100 sites representing 800+ clinical locations"
-  },
-  Smart_Report: {
-    full_name:"Tempus treatment and trial matching insights",
-    description:"Guideline-aware therapy and trial context layered into the Tempus ordering and reporting workflow.",
-    key_differentiator:"Tempus is strongest when the rep can connect molecular output to the next clinical action, not just hand over a variant list."
-  }
-});
+let MARKET_INTELLIGENCE = parseMarketIntelligenceCsv(EMBEDDED_MARKET_CSV);
+let CRM_NOTES = parseCrmNotesText(EMBEDDED_CRM_NOTES);
 
 const SOURCE_LIBRARY = {
   xT_panel: { label:"xT CDx", detail:"FDA-approved 648-gene tissue-based NGS test for malignant solid tumors using tumor + normal matching.", url:"https://www.tempus.com/news/tempus-receives-u-s-fda-approval-for-xt-cdx-a-ngs-based-in-vitro-diagnostic-device/" },
@@ -974,86 +928,6 @@ const SOURCE_LIBRARY = {
   report_actions: { label:"Tempus reporting", detail:"Public Tempus oncology materials emphasize a workflow that connects profiling results to guideline-aware therapy and trial options.", url:"https://www.tempus.com/oncology/genomic-profiling/" },
   reimbursement: { label:"Coverage support", detail:"Public Tempus materials reference financial assistance resources and payer-workflow support when coverage criteria are met.", url:"https://www.tempus.com/wp-content/uploads/2024/10/Tempus-NYS-xF_Clinical-Overview.pdf" }
 };
-
-const DEFAULT_CRM_NOTES = [
-  { provider_id:"P001", provider_name:"Dr. Sarah Chen", interactions:[
-    { date:"2025-11-15", type:"conference", rep:"Jordan Marks", note:"Met at ASTRO. Dr. Chen interested in xF for monitoring Stage IV NSCLC pts post-pembrolizumab. Main concern: been using Guardant360 for liquid bx and happy with TAT. Wants head-to-head comparison data. Also asked about trial matching - has 3 pts she can't find trials for. Follow up w/ xF vs Guardant comparison + TIME trial demo.", sentiment:"warm", objections:["competitor_loyalty","needs_comparison_data"], next_steps:["Send xF vs Guardant comparison","Schedule TIME trial demo"] },
-    { date:"2026-01-22", type:"email", rep:"Jordan Marks", note:"Sent comparison data. Dr. Chen replied asking about specimen requirements - clinic prefers Streck tubes. Confirmed we use Streck. She wants to pilot xF for 5 patients next quarter.", sentiment:"hot", objections:[], next_steps:["Set up pilot program","Coordinate with lab director Dr. Raj Patel"] },
-    { date:"2026-03-05", type:"phone", rep:"Jordan Marks", note:"Quick check-in call. Pilot paperwork submitted, waiting on compliance approval. Dr. Chen mentioned she presented our comparison data at tumor board - got positive reception. Expecting to start pilot mid-April.", sentiment:"hot", objections:[], next_steps:["Follow up on compliance approval","Prepare onboarding materials"] }
-  ]},
-  { provider_id:"P003", provider_name:"Dr. Priya Patel", interactions:[
-    { date:"2025-10-08", type:"in-person", rep:"Jordan Marks", note:"Office visit. Dr. Patel running 30 tests/mo through us already - mostly CRC and pancreatic. Wants to expand to HCC patients but concerned about TAT for treatment-naive pts who need to start systemic therapy quickly. Asked about STAT option.", sentiment:"warm", objections:["turnaround_time"], next_steps:["Send STAT pricing and logistics info","Connect with lab team on STAT workflow"] },
-    { date:"2025-12-12", type:"phone", rep:"Jordan Marks", note:"Discussed STAT option - 5-7 day TAT. She's interested but worried about additional cost to patients. Asked about insurance coverage for STAT. Will check with billing team.", sentiment:"warm", objections:["turnaround_time","cost_reimbursement"], next_steps:["Get STAT billing/coverage details from reimbursement team"] },
-    { date:"2026-02-18", type:"email", rep:"Jordan Marks", note:"Sent STAT coverage info - Medicare covers it for advanced solid tumors. Dr. Patel agreed to use STAT for her next 3 treatment-naive HCC pts. She also mentioned interest in our MSI/TMB reporting for IO candidacy assessment.", sentiment:"hot", objections:[], next_steps:["Monitor STAT cases","Share MSI/TMB clinical data"] }
-  ]},
-  { provider_id:"P005", provider_name:"Dr. Emily Whitfield", interactions:[
-    { date:"2025-09-20", type:"in-person", rep:"Jordan Marks", note:"Quarterly review with Dr. Whitfield. She's our top champion at NW - ordering 25/mo, referring colleagues. Presented at their derm-onc tumor board about Tempus BRAF/MEK mutation detection rates. Asked if we can do a CME lunch for her melanoma team.", sentiment:"hot", objections:[], next_steps:["Organize CME lunch and learn","Send latest melanoma panel data"] },
-    { date:"2026-01-10", type:"in-person", rep:"Jordan Marks", note:"CME lunch was a hit - 12 attendees including 2 dermatologists who refer to her. Dr. Whitfield wants to discuss expanding to ctDNA monitoring for her adjuvant melanoma pts on pembrolizumab. Great advocacy.", sentiment:"hot", objections:[], next_steps:["Set up xF for melanoma monitoring use case","Ask about referral to Dr. Foster in neuro-onc"] },
-    { date:"2026-03-10", type:"phone", rep:"Jordan Marks", note:"Dr. Whitfield referred Dr. Foster (neuro-onc) to us - he's evaluating xT for GBM. She also connected us with Dr. Park in breast - both at Northwestern. True champion behavior.", sentiment:"hot", objections:[], next_steps:["Follow up with Dr. Foster","Thank Dr. Whitfield with updated case studies"] }
-  ]},
-  { provider_id:"P006", provider_name:"Dr. Raj Patel", interactions:[
-    { date:"2025-10-30", type:"in-person", rep:"Jordan Marks", note:"Met with Dr. Patel (lab director) to discuss expanding Tempus utilization across NW. He controls which tests get routed where. Currently splitting 30 Tempus / 60 FMI per month. Main blocker: FMI has an existing enterprise contract with favorable pricing. He's open to increasing our share if we can match pricing tier.", sentiment:"warm", objections:["competitor_loyalty","cost_reimbursement"], next_steps:["Escalate pricing discussion to regional VP","Prepare volume-based proposal"] },
-    { date:"2026-02-05", type:"email", rep:"Jordan Marks", note:"Sent volume-based pricing proposal for 80+ tests/month commitment. Dr. Patel reviewing with hospital admin. Mentioned that our RNA integration and report summary workflow are differentiators his pathology team values. FMI contract renewal is in Q3 - critical window.", sentiment:"warm", objections:["competitor_loyalty"], next_steps:["Follow up on proposal review","Prepare for Q3 FMI contract renewal window"] }
-  ]},
-  { provider_id:"P008", provider_name:"Dr. Robert Kim", interactions:[
-    { date:"2025-08-15", type:"phone", rep:"Jordan Marks", note:"Cold call. Dr. Kim used to order Tempus 2 yrs ago but switched to Guardant for simplicity - just blood draw, no tissue coordination. His community practice doesn't have a dedicated pathology team. Concerned about tissue logistics for xT.", sentiment:"cold", objections:["specimen_requirements","competitor_loyalty"], next_steps:["Send info on xF liquid biopsy as tissue-free alternative"] },
-    { date:"2025-11-20", type:"email", rep:"Jordan Marks", note:"Followed up with xF info. Dr. Kim interested - didn't realize we had a comparable liquid bx product. Asked about Medicare coverage for his mostly elderly patient population.", sentiment:"warm", objections:["cost_reimbursement"], next_steps:["Send Medicare coverage guide","Schedule brief demo call"] },
-    { date:"2026-01-15", type:"phone", rep:"Jordan Marks", note:"Demo call on xF workflow. Dr. Kim impressed by simplicity - Streck tubes, ship to Tempus, 5-7 day results. He'll trial it for 3 patients. Great turnaround from cold to warm in 5 months.", sentiment:"warm", objections:[], next_steps:["Set up account for xF ordering","Follow up after first 3 cases"] }
-  ]},
-  { provider_id:"P009", provider_name:"Dr. Alejandra Reyes", interactions:[
-    { date:"2025-12-05", type:"in-person", rep:"Jordan Marks", note:"Met at Rush. Dr. Reyes orders ~10/mo through us for H&N cases. Brought up concern that her NPs and PAs struggle with interpreting the full xT report - too many variants listed. Asked if we have a simplified view for support staff.", sentiment:"warm", objections:["report_complexity"], next_steps:["Share Tempus Hub walkthrough for simplified views","Offer NP/PA training session"] },
-    { date:"2026-02-28", type:"phone", rep:"Jordan Marks", note:"Scheduled and completed a 30-min training for her 3 NPs on reading the Tempus report summary page. They found it much more accessible than the full variant table. Dr. Reyes pleased - might increase volume if support team is comfortable ordering independently.", sentiment:"hot", objections:[], next_steps:["Follow up on NP ordering workflow","Check volume trend in 60 days"] }
-  ]},
-  { provider_id:"P011", provider_name:"Dr. Catherine Osei", interactions:[
-    { date:"2025-09-10", type:"conference", rep:"Jordan Marks", note:"Met at ASH satellite symposium. Dr. Osei does mostly AML/MDS - was using FMI FoundationOne Heme but frustrated with TAT (getting 18-20 day results). Her AML pts need rapid mutation profiling for targeted therapy selection (FLT3, IDH1/2). Interested in hearing about our heme-specific capabilities.", sentiment:"warm", objections:["turnaround_time"], next_steps:["Send heme panel comparison data","Highlight STAT option for AML"] },
-    { date:"2026-01-08", type:"email", rep:"Jordan Marks", note:"Sent heme comparison and STAT TAT data. Dr. Osei replied: 'If you can consistently deliver FLT3/IDH results in under 7 days, I'll switch my next 10 AML workups.' Setting up STAT pilot.", sentiment:"hot", objections:[], next_steps:["Coordinate STAT pilot with lab ops","Monitor TAT performance closely"] }
-  ]},
-  { provider_id:"P012", provider_name:"Dr. Michael Torres", interactions:[
-    { date:"2025-10-15", type:"in-person", rep:"Jordan Marks", note:"Office visit at UChicago. Dr. Torres running 20 Tempus tests/mo for GU tumors. Wants to add liquid bx monitoring for his mCRPC patients on novel combos. Also discussed HRD testing for ovarian referrals from gyn-onc colleagues.", sentiment:"warm", objections:[], next_steps:["Set up xF for mCRPC monitoring","Share HRD testing workflow"] },
-    { date:"2026-02-10", type:"phone", rep:"Jordan Marks", note:"xF monitoring set up and running for 5 mCRPC pts. Dr. Torres impressed with AR pathway reporting. Wants to present Tempus at next GU tumor board. This could open doors with the urology surgical team too.", sentiment:"hot", objections:[], next_steps:["Provide tumor board presentation deck","Connect with urology contacts"] }
-  ]},
-  { provider_id:"P014", provider_name:"Dr. David Greenbaum", interactions:[
-    { date:"2025-11-01", type:"in-person", rep:"Jordan Marks", note:"Met at Rush thoracic conference. Dr. Greenbaum ordering 8/mo through us but sending 18/mo to Guardant. He likes Guardant for surgical patients - quick liquid bx pre-operatively. Skeptical about why he needs a 648-gene panel when 'we already know to test for EGFR, ALK, ROS1, and PD-L1.'", sentiment:"cold", objections:["clinical_utility_skepticism","competitor_loyalty"], next_steps:["Prepare case study on unexpected findings from broad panel in NSCLC","Share NCI-MATCH enrollment data"] },
-    { date:"2026-01-25", type:"email", rep:"Jordan Marks", note:"Sent 3 de-identified case examples where xT found actionable mutations outside the standard NSCLC panel (RET fusion, NTRK3 fusion, MET exon 14 skip). Dr. Greenbaum acknowledged these are clinically meaningful. Agreed to a lunch meeting.", sentiment:"warm", objections:["clinical_utility_skepticism"], next_steps:["Schedule lunch meeting","Bring MSL for clinical discussion"] },
-    { date:"2026-03-15", type:"in-person", rep:"Jordan Marks", note:"Lunch meeting with MSL Dr. Vasquez. Deep clinical discussion - Dr. Greenbaum now understands the RNA fusion detection advantage over DNA-only. Agreed to route his next 5 surgical biopsies through xT alongside Guardant liquid bx. Good progress.", sentiment:"warm", objections:[], next_steps:["Monitor dual-testing cases","Follow up on results satisfaction"] }
-  ]},
-  { provider_id:"P015", provider_name:"Dr. Angela Park", interactions:[
-    { date:"2025-10-20", type:"in-person", rep:"Jordan Marks", note:"Quarterly with Dr. Park - she's ordering 35/mo, our #2 volume at Northwestern. Excited about ESR1 mutation monitoring with xF in her ER+ metastatic patients. Wants to set up automatic reflex testing: xT at diagnosis, xF every 3 months for monitoring.", sentiment:"hot", objections:[], next_steps:["Work with lab on reflex testing protocol","Prepare presentation for breast tumor board"] },
-    { date:"2026-02-15", type:"in-person", rep:"Jordan Marks", note:"Presented reflex testing protocol at breast tumor board. Dr. Park introduced me to 3 breast surgeons who do initial biopsies - key to getting tissue samples early. She's becoming a true institutional champion alongside Dr. Whitfield.", sentiment:"hot", objections:[], next_steps:["Follow up with breast surgeons","Document reflex testing workflow for other sites"] }
-  ]},
-  { provider_id:"P016", provider_name:"Dr. Frank DiMaggio", interactions:[
-    { date:"2025-09-05", type:"phone", rep:"Jordan Marks", note:"Initial outreach to Dr. DiMaggio - medical director at NorthShore cancer center. He's been a longtime FMI user. Polite but dismissive: 'We're happy with our current vendor.' Only sending 3/mo through us for overflow. Needs a compelling reason to switch.", sentiment:"cold", objections:["competitor_loyalty"], next_steps:["Research NorthShore's specific testing patterns","Identify unique value prop vs FMI for their case mix"] },
-    { date:"2025-12-18", type:"email", rep:"Jordan Marks", note:"Sent a customized analysis showing how many of NorthShore's cancer types (lung, GI, breast) could benefit from RNA integration that FMI doesn't offer. Got a brief reply: 'Interesting - let's talk in Jan.' Progress.", sentiment:"warm", objections:["competitor_loyalty"], next_steps:["Schedule January meeting","Prepare site-specific ROI analysis"] },
-    { date:"2026-02-10", type:"in-person", rep:"Jordan Marks", note:"In-person meeting at NorthShore. Dr. DiMaggio brought his tumor board coordinator. Discussed workflow integration - they want seamless EMR connectivity. Showed him Tempus Hub demo. He's warming up but won't commit until he sees 'proof it works in our patient population.' Wants a 20-patient pilot.", sentiment:"warm", objections:["needs_comparison_data"], next_steps:["Set up 20-patient pilot","Ensure EMR integration is smooth"] }
-  ]},
-  { provider_id:"P017", provider_name:"Dr. Natasha Volkov", interactions:[
-    { date:"2026-01-20", type:"in-person", rep:"Jordan Marks", note:"Office visit at UChicago. Dr. Volkov is big on TMB/MSI for IO candidacy - using us for 18/mo already. She wants better access to our real-world evidence data on IO response rates by TMB category. Also interested in our TIME trial network for her checkpoint-refractory patients.", sentiment:"warm", objections:[], next_steps:["Connect with RWE team for IO data access","Schedule TIME trial demo"] },
-    { date:"2026-03-08", type:"phone", rep:"Jordan Marks", note:"TIME trial demo went well - matched 2 of her refractory pts to novel IO combo trials at Northwestern (cross-institutional enrollment). She's impressed and wants to bring this up at the next immuno-onc working group. Potential to become a champion.", sentiment:"hot", objections:[], next_steps:["Provide trial matching success metrics","Prep for immuno-onc working group presentation"] }
-  ]},
-  { provider_id:"P019", provider_name:"Dr. Karen Lindqvist", interactions:[
-    { date:"2025-10-12", type:"conference", rep:"Jordan Marks", note:"Met at COG (Children's Oncology Group) meeting. Dr. Lindqvist doesn't use Tempus - all peds genomics going through FMI at Lurie. Expressed skepticism about testing volume justifying a switch, given smaller peds patient numbers. But very interested in RNA fusion detection for peds sarcomas and brain tumors.", sentiment:"cold", objections:["clinical_utility_skepticism"], next_steps:["Send peds-specific RNA fusion case studies","Connect with Tempus peds oncology specialist"] },
-    { date:"2026-02-20", type:"email", rep:"Jordan Marks", note:"Shared 5 peds fusion detection cases (NTRK in infantile fibrosarcoma, ETV6-NTRK3 in congenital mesoblastic nephroma, EWSR1 fusions in Ewing sarcoma). Dr. Lindqvist forwarded to her peds tumor board. Replied: 'The RNA data is compelling. Can your specialist present to our group?'", sentiment:"warm", objections:[], next_steps:["Schedule peds oncology specialist presentation","Prepare Lurie-specific proposal"] }
-  ]},
-  { provider_id:"P021", provider_name:"Dr. Grace Adebayo", interactions:[
-    { date:"2025-11-10", type:"phone", rep:"Jordan Marks", note:"Check-in with Dr. Adebayo. She orders 8/mo for GI cases at Advocate Christ. Her main concern: many of her patients are Medicare and she's seeing some claim denials for CGP. Wants to make sure patients aren't getting surprise bills.", sentiment:"warm", objections:["cost_reimbursement"], next_steps:["Connect with reimbursement specialist","Send Medicare prior auth guide"] },
-    { date:"2026-01-30", type:"email", rep:"Jordan Marks", note:"Our reimbursement team did a 1-on-1 with Dr. Adebayo's billing coordinator. Resolved the prior auth workflow issue - denials were from missing clinical documentation. She's relieved and willing to maintain current volume. Asked about expanding to pancreatic cases.", sentiment:"warm", objections:[], next_steps:["Share pancreatic cancer profiling data","Monitor claim approval rates"] }
-  ]},
-  { provider_id:"P022", provider_name:"Dr. Steven Marks", interactions:[
-    { date:"2025-12-01", type:"in-person", rep:"Jordan Marks", note:"Office visit at Loyola. Dr. S. Marks ordering 12/mo through us for lung cancer but sending 18/mo to Guardant for liquid bx. He's frustrated with tissue coordination delays from bronchoscopy to our lab - sometimes 3 weeks before we even get the specimen. Wants more of a liquid-first approach.", sentiment:"warm", objections:["turnaround_time","specimen_requirements"], next_steps:["Propose xF-first strategy for his practice","Share liquid bx + reflex to tissue workflow"] },
-    { date:"2026-02-25", type:"phone", rep:"Jordan Marks", note:"Presented xF-first protocol: start with liquid bx at diagnosis, reflex to xT only if actionable mutations not found. Dr. Marks loves it - solves his TAT problem and still gets comprehensive profiling when needed. Will trial this approach for next 10 lung cancer patients.", sentiment:"hot", objections:[], next_steps:["Set up xF-first ordering workflow","Monitor results and conversion to xT reflex"] }
-  ]},
-  { provider_id:"P023", provider_name:"Dr. Mei-Ling Huang", interactions:[
-    { date:"2025-11-05", type:"in-person", rep:"Jordan Marks", note:"Quarterly with Dr. Huang. She's our champion in rare tumors - always advocates for Tempus RNA at sarcoma tumor boards. Ordering 12/mo, mostly xR for fusion detection. Wants to publish a case series on Tempus-detected fusions in undifferentiated sarcomas.", sentiment:"hot", objections:[], next_steps:["Connect with medical affairs for publication support","Provide de-identified case data"] },
-    { date:"2026-01-18", type:"email", rep:"Jordan Marks", note:"Medical affairs approved collaboration on case series. Dr. Huang is writing up 8 cases where xR-detected fusions changed treatment plans. This will be great marketing material + builds her as a KOL for us.", sentiment:"hot", objections:[], next_steps:["Support manuscript preparation","Plan KOL engagement strategy"] },
-    { date:"2026-03-12", type:"phone", rep:"Jordan Marks", note:"Case series submitted to Annals of Oncology. Dr. Huang also referred a colleague at Memorial Sloan Kettering who's interested in our sarcoma data. True champion extending beyond our territory.", sentiment:"hot", objections:[], next_steps:["Support MSK referral","Celebrate publication when accepted"] }
-  ]},
-  { provider_id:"P025", provider_name:"Dr. Rachel Goldstein", interactions:[
-    { date:"2025-12-10", type:"in-person", rep:"Jordan Marks", note:"Met Dr. Goldstein at Northwestern breast surgery conference. She orders 15/mo through us (mostly xT for surgical planning) but also sends germline testing to Myriad for BRCA. Didn't realize we offer xG for germline - interested in consolidating to one vendor.", sentiment:"warm", objections:[], next_steps:["Send xG product info and workflow","Show somatic+germline integration value"] },
-    { date:"2026-02-20", type:"phone", rep:"Jordan Marks", note:"Discussed xG + xT integration benefits: one sample, one report, germline findings contextualized with somatic results. She's sold on the concept - will switch her next 10 BRCA referrals from Myriad to xG. Also wants to pilot for Lynch syndrome screening in her early-stage CRC referrals.", sentiment:"hot", objections:[], next_steps:["Set up xG ordering","Coordinate Lynch screening protocol with GI team"] }
-  ]}
-];
-
-let CRM_NOTES = JSON.parse(JSON.stringify(DEFAULT_CRM_NOTES.filter(note => CASE_STUDY_PROVIDER_IDS.includes(note.provider_id))));
 
 const DEFAULT_AI_ASSETS = {
   systemPrompt: `# Role
@@ -1171,8 +1045,7 @@ let connectionState = {
   proxyModel: CONFIG.model
 };
 const PANEL_WIDTH_KEY = "tempus_left_panel_width";
-const RIGHT_TOP_HEIGHT_KEY = "tempus_right_top_height";
-const layoutState = { leftPanelWidth: loadPanelWidth(), rightTopHeight: loadRightTopHeight() };
+const layoutState = { leftPanelWidth: loadPanelWidth() };
 
 function loadTheme() {
   try {
@@ -1188,15 +1061,6 @@ function loadPanelWidth() {
     return raw ? parseInt(raw, 10) : 320;
   } catch (error) {
     return 320;
-  }
-}
-
-function loadRightTopHeight() {
-  try {
-    const raw = localStorage.getItem(RIGHT_TOP_HEIGHT_KEY);
-    return raw ? parseInt(raw, 10) : 260;
-  } catch (error) {
-    return 260;
   }
 }
 
@@ -1238,19 +1102,6 @@ function applyPanelWidth(width) {
     handle.setAttribute("aria-valuenow", String(nextWidth));
     handle.setAttribute("aria-valuetext", `${nextWidth}px left panel width`);
   }
-}
-
-function clampRightTopHeight(height) {
-  const panel = document.querySelector(".right-panel");
-  const availableHeight = panel ? panel.getBoundingClientRect().height : window.innerHeight;
-  const minHeight = 120;
-  const maxHeight = Math.min(420, Math.max(240, Math.floor(availableHeight * 0.52)));
-  return Math.max(minHeight, Math.min(maxHeight, Math.round(height)));
-}
-
-function applyRightTopHeight(height) {
-  // No-op: right panel top is now auto-height (no split panel)
-  layoutState.rightTopHeight = height;
 }
 
 function applyTheme(theme) {
@@ -1327,10 +1178,7 @@ function parseMarketIntelligenceCsv(text) {
 }
 
 function parseCrmNotesText(text) {
-  return text
-    .split(/\n={3,}\n/g)
-    .map(block => block.trim())
-    .filter(Boolean)
+  return splitCrmBlocks(text)
     .map(block => {
       const lines = block.split(/\r?\n/);
       const providerId = lines.shift()?.replace(/^provider_id:\s*/i, "").trim() || "";
@@ -1384,7 +1232,7 @@ function getMissingPromptTokens(template, requiredTokens = []) {
 
 function splitCrmBlocks(text) {
   return String(text || "")
-    .split(/\n={3,}\n/g)
+    .split(/\r?\n={3,}\r?\n/g)
     .map(block => block.trim())
     .filter(Boolean);
 }
@@ -1442,7 +1290,7 @@ function validateCrmInput(rawText, parsedCrm, marketIds) {
   const malformedBlockIds = [];
   const futureDateIds = [];
   const outOfOrderIds = [];
-  const today = new Date();
+  const asOf = getAsOfDate();
 
   blocks.forEach(block => {
     const lines = block.split(/\r?\n/);
@@ -1452,7 +1300,7 @@ function validateCrmInput(rawText, parsedCrm, marketIds) {
     if (!providerId || !providerName || dateMatches.length === 0) malformedBlockIds.push(providerId || "unknown");
 
     const parsedDates = dateMatches.map(value => new Date(`${value}T00:00:00`));
-    if (parsedDates.some(date => Number.isNaN(date.getTime()) || date > today)) futureDateIds.push(providerId);
+    if (parsedDates.some(date => Number.isNaN(date.getTime()) || date > asOf)) futureDateIds.push(providerId);
     for (let index = 1; index < parsedDates.length; index++) {
       if (parsedDates[index] < parsedDates[index - 1]) {
         outOfOrderIds.push(providerId);
@@ -1513,11 +1361,11 @@ function buildLocalDataHealth({ marketValidation, crmValidation, kbValidation, u
   if (marketValidation.numericIssueIds.length) issues.push(`market CSV has invalid numeric fields for: ${formatValidationList(marketValidation.numericIssueIds)}`);
   if (marketValidation.plausibilityIssueIds.length) issues.push(`market volumes need review for: ${formatValidationList(marketValidation.plausibilityIssueIds)}`);
   if (crmValidation.malformedBlockIds.length) issues.push(`CRM blocks need format fixes for: ${formatValidationList(crmValidation.malformedBlockIds)}`);
-  if (crmValidation.futureDateIds.length) issues.push(`CRM contains future or invalid dates for: ${formatValidationList(crmValidation.futureDateIds)}`);
+  if (crmValidation.futureDateIds.length) issues.push(`CRM has dates after ${CONFIG.asOfDate} or invalid dates for: ${formatValidationList(crmValidation.futureDateIds)}`);
   if (crmValidation.outOfOrderIds.length) issues.push(`CRM dates are out of order for: ${formatValidationList(crmValidation.outOfOrderIds)}`);
   if (crmValidation.missingCrmIds.length) issues.push(`CRM IDs missing from market CSV: ${formatValidationList(crmValidation.missingCrmIds)}`);
-  if (kbValidation.missingSections.length) issues.push(`product KB missing sections: ${formatValidationList(kbValidation.missingSections)}`);
-  if (kbValidation.sectionsWithoutUrls.length) issues.push(`product KB sections without citations: ${formatValidationList(kbValidation.sectionsWithoutUrls)}`);
+  if (kbValidation.loaded && kbValidation.missingSections.length) issues.push(`product KB missing sections: ${formatValidationList(kbValidation.missingSections)}`);
+  if (kbValidation.loaded && kbValidation.sectionsWithoutUrls.length) issues.push(`product KB sections without citations: ${formatValidationList(kbValidation.sectionsWithoutUrls)}`);
 
   const isOk = issues.length === 0;
   return {
@@ -1535,10 +1383,10 @@ async function loadMockDataSources() {
   ]);
 
   const usingFallback = [marketResult, productResult, crmResult].some(result => result.status !== "fulfilled");
-  const marketText = marketResult.status === "fulfilled" ? marketResult.value : "";
-  const crmText = crmResult.status === "fulfilled" ? crmResult.value : "";
-  const parsedMarket = marketResult.status === "fulfilled" ? parseMarketIntelligenceCsv(marketResult.value) : [];
-  const parsedCrm = crmResult.status === "fulfilled" ? parseCrmNotesText(crmResult.value) : [];
+  const marketText = marketResult.status === "fulfilled" ? marketResult.value : EMBEDDED_MARKET_CSV;
+  const crmText = crmResult.status === "fulfilled" ? crmResult.value : EMBEDDED_CRM_NOTES;
+  const parsedMarket = parseMarketIntelligenceCsv(marketText);
+  const parsedCrm = parseCrmNotesText(crmText);
   const productMarkdown = productResult.status === "fulfilled" ? normalizeAssetText(productResult.value) : "";
   const marketIds = new Set(parsedMarket.map(provider => provider.id).filter(Boolean));
   const marketValidation = validateMarketInput(marketText, parsedMarket);
@@ -1547,7 +1395,6 @@ async function loadMockDataSources() {
 
   if (parsedMarket.length) MARKET_INTELLIGENCE = parsedMarket;
   if (parsedCrm.length) CRM_NOTES = parsedCrm;
-  PRODUCT_KNOWLEDGE_MARKDOWN = productMarkdown;
 
   localDataHealth = buildLocalDataHealth({
     marketValidation,
@@ -1593,9 +1440,13 @@ function getLatestInteraction(p) {
   return p.notes && p.notes.interactions.length ? p.notes.interactions[p.notes.interactions.length - 1] : null;
 }
 
+function getAsOfDate() {
+  return new Date(`${CONFIG.asOfDate}T00:00:00`);
+}
+
 function getDaysSince(dateString) {
   if (!dateString) return null;
-  return Math.floor((new Date() - new Date(dateString + "T00:00:00")) / 86400000);
+  return Math.floor((getAsOfDate() - new Date(dateString + "T00:00:00")) / 86400000);
 }
 
 function getSentimentScore(sentiment) {
@@ -1698,9 +1549,9 @@ function getAccountFitScore(p) {
   if (p.specialty === "Pathology/Lab Director") score += 0.18;
   if (isHemeProvider(p)) score += 0.12;
   if (p.primary_competitor === "Foundation Medicine" && /(thoracic|sarcoma|neuro|pediatric|pathology)/.test(specialty)) score += 0.14;
-  if (p.primary_competitor === "Guardant Health" && /(thoracic|lung|prostate|general oncology|gu)/.test(specialty)) score += 0.14;
+  if (p.primary_competitor === "Guardant Health" && /(thoracic|lung|prostate|general oncology|\bgu\b)/.test(specialty)) score += 0.14;
   if (p.primary_competitor === "Myriad Genetics" && hereditaryFocus) score += 0.18;
-  if (p.primary_competitor === "Caris Life Sciences" && /(gi|colorectal|pancreatic)/.test(specialty)) score += 0.14;
+  if (p.primary_competitor === "Caris Life Sciences" && /(\bgi\b|colorectal|pancreatic)/.test(specialty)) score += 0.14;
   if (p.competitor_volume >= 20) score += 0.08;
 
   return clamp(score);
@@ -1896,10 +1747,6 @@ function setupPanelResizer() {
   handle.addEventListener("dblclick", () => applyPanelWidth(320));
 }
 
-function setupRightVerticalResizer() {
-  // No-op: right panel is no longer split vertically
-}
-
 function getInteractionLabel(type) {
   return type === "email" ? "Open full email" : "Open full note";
 }
@@ -1941,7 +1788,7 @@ function getProvidersPaneMarkup() {
             ].map(filter => `<button class="filter-pill${appState.activeFilter === filter.value ? " active" : ""}" data-filter="${filter.value}">${filter.label}</button>`).join("")}
           </div>
           <div class="sort-row">
-            <span class="sort-label">Sort by</span>
+            <label class="sort-label" for="sidebar-sort-select">Sort by</label>
             <select class="sort-select" id="sidebar-sort-select">
               <option value="priority"${appState.sortBy === "priority" ? " selected" : ""}>Priority score</option>
               <option value="volume"${appState.sortBy === "volume" ? " selected" : ""}>Volume</option>
@@ -2032,8 +1879,8 @@ function renderSidebarTop() {
             ${topThree.map((provider, index) => `<button class="today-item" onclick="selectProvider('${provider.id}', { resetTab:true })">
               <div class="today-rank">${index + 1}</div>
               <div class="today-main">
-                <div class="today-name">${provider.name}</div>
-                <div class="today-meta">${provider.institution} • ${provider.score}/100</div>
+                <div class="today-name">${escapeHtml(provider.name)}</div>
+                <div class="today-meta">${escapeHtml(provider.institution)} • ${provider.score}/100</div>
                 <div class="today-why">${escapeHtml(getWhyNow(provider))}</div>
               </div>
             </button>`).join("")}
@@ -2248,13 +2095,13 @@ function renderApp() {
   const app = document.getElementById("app");
   app.innerHTML = `
     <div class="app">
-      <div class="header">
+      <header class="header">
         <div class="header-left">
           <div class="logo">
             <img class="logo-img" src="${BRAND.logoWhiteUrl}" alt="Tempus" referrerpolicy="no-referrer" onerror="this.style.display='none'">
             <div class="logo-copy">
               <div class="logo-title-row">
-                <div class="logo-title">Sales Copilot</div>
+                <h1 class="logo-title">Sales Copilot</h1>
                 <div class="concept-pill">${BRAND.conceptLabel}</div>
               </div>
               <div class="brand-note">${CONFIG.repName} &mdash; ${CONFIG.territory}</div>
@@ -2262,13 +2109,13 @@ function renderApp() {
           </div>
         </div>
         <div class="header-right">
-          <span class="data-sync" style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono)">Data: ${CONFIG.dataDate}</span>
+          <span class="data-sync" style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono)">Data as of ${getAsOfDate().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
           <span class="data-health-chip ${localDataHealth.level}" title="${escapeHtml(localDataHealth.detail)}">${escapeHtml(dataSourceStatus)}</span>
           <button id="api-status" class="api-status-btn demo" onclick="showApiModal()">Demo Mode</button>
           <button class="btn-sm" id="theme-toggle" onclick="toggleTheme()" style="font-family:var(--font-mono);font-size:11px">Dark</button>
         </div>
-      </div>
-      <div class="main">
+      </header>
+      <main class="main">
         <div class="left-panel">
           <div class="left-panel-top" id="left-panel-top"></div>
         </div>
@@ -2277,16 +2124,16 @@ function renderApp() {
           <div class="tab-bar" id="tab-bar"></div>
           <div class="tab-content" id="tab-content"></div>
         </div>
-      </div>
-      <div class="footer">
-        <div>Public Tempus sources &bull; mock account data &bull; <a onclick="showApiModal()">Connect Claude</a> &bull; <a onclick="resetApiKey()">Return to Demo Mode</a></div>
+      </main>
+      <footer class="footer">
+        <div>Public Tempus sources &bull; mock account data &bull; <button type="button" class="footer-link" onclick="showApiModal()">Connect Claude</button> &bull; <button type="button" class="footer-link" onclick="resetApiKey()">Return to Demo Mode</button></div>
         <div class="kbd-hint">
           <span class="kbd">J</span> up &nbsp;
           <span class="kbd">K</span> down &nbsp;
           <span class="kbd">1</span><span class="kbd">2</span><span class="kbd">3</span> tabs &nbsp;
           <span class="kbd">G</span> generate
         </div>
-      </div>
+      </footer>
     </div>`;
 }
 
@@ -2310,14 +2157,14 @@ function renderProviderList() {
     container.innerHTML = filtered.map(p => {
       const tier = p.score >= 75 ? "high" : p.score >= 50 ? "medium" : "low";
       const selected = p.id === selectedProviderId ? " selected" : "";
-      return `<div class="provider-card${selected}" data-id="${p.id}" onclick="selectProvider('${p.id}')">
+      return `<div class="provider-card${selected}" data-id="${p.id}" role="button" tabindex="0"${selected ? ' aria-current="true"' : ""} onclick="selectProvider('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProvider('${p.id}')}">
         <div class="card-top">
-          <div class="card-name">${p.name}</div>
+          <div class="card-name">${escapeHtml(p.name)}</div>
           <span class="score-badge ${tier}">${p.score}/100</span>
         </div>
-        <div class="card-institution">${p.institution}</div>
-        <div class="card-meta">${p.specialty}</div>
-        <div class="why-now provider-summary">${getWhyNow(p)}</div>
+        <div class="card-institution">${escapeHtml(p.institution)}</div>
+        <div class="card-meta">${escapeHtml(p.specialty)}</div>
+        <div class="why-now provider-summary">${escapeHtml(getWhyNow(p))}</div>
       </div>`;
     }).join("");
   }
@@ -2328,11 +2175,16 @@ function renderProviderList() {
 
 function selectProvider(id, options = {}) {
   abortStream();
+  const refocusCard = document.activeElement?.classList?.contains("provider-card");
   selectedProviderId = id;
   if (options.resetTab) activeTab = "priority";
   renderProviderList();
   const card = document.querySelector(`.provider-card.selected`);
-  if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  if (card) {
+    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    // The list is re-rendered, so keep keyboard focus on the selected card.
+    if (refocusCard) card.focus({ preventScroll: true });
+  }
 }
 
 function renderTabBar() {
@@ -2451,14 +2303,14 @@ function renderPriorityTab(p) {
           <div class="prep-hero-grid">
             <div class="prep-main">
               <div class="prep-identity">
-                <div class="ph-name">${p.name}, ${p.credentials}</div>
-                <div class="ph-title">${p.title}</div>
-                <div class="ph-institution">${p.institution} | ${p.hospital_system}</div>
+                <div class="ph-name">${escapeHtml(`${p.name}, ${p.credentials}`)}</div>
+                <div class="ph-title">${escapeHtml(p.title)}</div>
+                <div class="ph-institution">${escapeHtml(`${p.institution} | ${p.hospital_system}`)}</div>
                 <div class="ph-badges">
                   <span class="status-badge ${p.tempus_relationship}">${statusLabel}</span>
                   <span class="score-badge ${tier}">${p.score}/100</span>
-                  <span class="specialty-pill">${p.specialty}</span>
-                  ${primaryConcern !== "No open concern tagged" ? `<span class="objection-tag">${primaryConcern}</span>` : `<span class="info-chip">No open concern tagged</span>`}
+                  <span class="specialty-pill">${escapeHtml(p.specialty)}</span>
+                  ${primaryConcern !== "No open concern tagged" ? `<span class="objection-tag">${escapeHtml(primaryConcern)}</span>` : `<span class="info-chip">No open concern tagged</span>`}
                 </div>
               </div>
               <div class="prep-why-block">
@@ -2469,7 +2321,7 @@ function renderPriorityTab(p) {
             </div>
             <div class="prep-sidecard">
               <div class="section-label">Next best action</div>
-              <div class="prep-sidecard-title">${playbook.nextBestAction}</div>
+              <div class="prep-sidecard-title">${escapeHtml(playbook.nextBestAction)}</div>
               <div class="prep-sidecard-copy">${playbook.meetingObjective}</div>
               <div class="prep-sidecard-rule"></div>
               <div class="prep-sidecard-meta"><strong>Stakeholder lens:</strong> ${playbook.stakeholder.badge}</div>
@@ -2584,18 +2436,18 @@ function renderObjectionsTab(p) {
         const label = ix.objections.length ? "Draft Response" : "Draft Follow-Up";
         return `<div class="crm-note">
           <div class="crm-note-header">
-            <span class="crm-note-meta">${dateStr} | ${ix.rep}</span>
-            <span class="crm-note-type">${ix.type}</span>
+            <span class="crm-note-meta">${dateStr} | ${escapeHtml(ix.rep)}</span>
+            <span class="crm-note-type">${escapeHtml(ix.type)}</span>
           </div>
-          <div class="crm-note-text">${ix.note}</div>
+          <div class="crm-note-text">${escapeHtml(ix.note)}</div>
           <div class="crm-note-actions">
             <div class="crm-note-tags">
               <span class="crm-note-sentiment ${ix.sentiment}">${ix.sentiment}</span>
-              ${ix.objections.length ? `<div class="objections-list">${ix.objections.map(o => `<span class="objection-tag">${o.replace(/_/g, " ")}</span>`).join("")}</div>` : '<span class="info-chip">No open objection tagged</span>'}
+              ${ix.objections.length ? `<div class="objections-list">${ix.objections.map(o => `<span class="objection-tag">${escapeHtml(o.replace(/_/g, " "))}</span>`).join("")}</div>` : '<span class="info-chip">No open objection tagged</span>'}
             </div>
             <button class="btn-sm primary" onclick="generateObjectionResponse(${realIdx})">${label}</button>
           </div>
-          ${ix.next_steps.length ? `<div class="next-step-line">Suggested next step: ${ix.next_steps[0]}</div>` : ""}
+          ${ix.next_steps.length ? `<div class="next-step-line">Suggested next step: ${escapeHtml(ix.next_steps[0])}</div>` : ""}
           <div id="ai-objection-${realIdx}"></div>
         </div>`;
       }).join("")}
@@ -2613,7 +2465,7 @@ function renderScriptTab(p) {
         <p style="color:var(--text-secondary);font-size:13px;margin-bottom:8px">Create a 30-second pitch tailored to ${p.name}'s specialty, relationship history, and stakeholder type.</p>
         <div class="helper-text">${stakeholder.badge}: ${stakeholder.focus}</div>
         <div class="btn-row">
-          <select class="tone-select" id="tone-select">
+          <select class="tone-select" id="tone-select" aria-label="Pitch tone">
             <option value="Clinical / Data-Driven">Clinical / Data-Driven</option>
             <option value="Conversational / Relationship">Conversational / Relationship</option>
             <option value="Direct / Business Case">Direct / Business Case</option>
@@ -2684,7 +2536,7 @@ function showInteractionModal(providerId, interactionIndex) {
   modal.className = "modal wide";
   modal.innerHTML = `
     <h2>${openLabel}</h2>
-    <p>${provider.name} • ${provider.institution}</p>
+    <p>${escapeHtml(`${provider.name} • ${provider.institution}`)}</p>
     <div class="interaction-modal-meta">
       <span class="info-chip">${dateLabel}</span>
       <span class="info-chip">${escapeHtml(interaction.type.replace(/_/g, " "))}</span>
@@ -2974,10 +2826,7 @@ async function streamClaudeViaProxy(payload, targetEl) {
   const response = await fetch("/api/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      anthropic_version: CONFIG.apiVersion,
-      ...payload
-    }),
+    body: JSON.stringify(payload),
     signal: streamController.signal
   });
   return readClaudeStreamResponse(response, targetEl);
@@ -3056,8 +2905,14 @@ async function generateWithFallback({ cacheKey, prompt, targetEl, temperature, s
 }
 
 function copyTextValue(text, message = "Copied to clipboard") {
-  navigator.clipboard.writeText(text);
-  showToast(message);
+  // navigator.clipboard is missing on non-HTTPS origins and writeText can be refused.
+  const write = navigator.clipboard?.writeText
+    ? navigator.clipboard.writeText(text)
+    : Promise.reject(new Error("Clipboard API unavailable"));
+  write.then(
+    () => showToast(message),
+    () => showToast("Copy failed: the browser blocked clipboard access")
+  );
 }
 
 function copyGeneratedContent(cacheKey, message = "Copied to clipboard") {
@@ -3097,15 +2952,45 @@ function buildObjectionResponseLocal(p, ix) {
   return `${ix.objections.includes("turnaround_time") ? "That timing concern is fair, especially when treatment decisions are moving quickly." : "That concern is reasonable, and it is exactly the part of the workflow we should pressure-test."} ${buildObjectionEvidence(p, ix)} ${ix.next_steps[0] || "Would it make sense to pressure-test this on the next few appropriate patients?"}`.replace(/\s+/g, " ").trim();
 }
 
+// Lowercase only the leading capitalized word so names and acronyms (Tempus, xG, STAT, NSCLC) survive mid-sentence.
+function lowerFirstWord(text) {
+  return String(text || "").replace(/^[A-Z][a-z]*\b/, word => word.toLowerCase());
+}
+
+// Lowercase ordinary capitalized words (Small Cell Lung Cancer) but keep acronyms (NSCLC, HR+, DCIS).
+function lowerCommonWords(text) {
+  return String(text || "").replace(/\b[A-Z][a-z]+\b/g, word => word.toLowerCase());
+}
+
+function withoutTrailingPeriod(text) {
+  return String(text || "").trim().replace(/\.$/, "");
+}
+
+const INTERACTION_NOUNS = { email: "email exchange", phone: "call", "in-person": "meeting", conference: "conversation at the conference" };
+
+const OBJECTION_PHRASES = {
+  competitor_loyalty: "switching from your current vendor",
+  needs_comparison_data: "comparison data",
+  cost_reimbursement: "cost and reimbursement",
+  clinical_utility_skepticism: "the clinical utility of broader panels"
+};
+
+function buildPitchOpener(last) {
+  const objection = last.objections[0];
+  if (objection) return `Last time we spoke, you had questions about ${OBJECTION_PHRASES[objection] || formatObjectionLabel(objection)}.`;
+  const dateLabel = new Date(`${last.date}T00:00:00`).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return `Picking up from our ${INTERACTION_NOUNS[last.type] || "last conversation"} on ${dateLabel}.`;
+}
+
 function buildIntroScriptLocal(p) {
   const products = getRelevantProducts(p);
-  const lead = p.recent_publications.length ? `I saw your recent work on ${p.recent_publications[0].toLowerCase()}` : `You are seeing a meaningful volume of ${p.top_cancer_types[0].toLowerCase()} patients`;
+  const lead = p.recent_publications.length ? `I saw your recent work (${p.recent_publications[0]})` : `You are seeing a meaningful volume of ${lowerCommonWords(p.top_cancer_types[0])} patients`;
   const productLine = isHemeProvider(p)
     ? `For hematologic accounts like yours, Tempus can streamline ordering through its comprehensive therapy selection workflow and use xR whole-transcriptome RNA sequencing when fusion or splice biology matters.`
     : products.includes("xF")
     ? `For accounts like yours, Tempus can start with xF, the public 105-gene liquid biopsy workflow, then add xT or xR when tissue and RNA detail matter.`
     : `For accounts like yours, Tempus usually leads with xT CDx and adds xR when fusion biology or RNA signal matters.`;
-  return `${p.name}, ${lead}. ${productLine} The reason I thought you were worth a quick look is that ${getWhyNow(p).toLowerCase()} If it is useful, we can keep it simple and review one disease-specific use case plus a low-friction pilot idea next week.`;
+  return `${p.name}, ${lead}. ${productLine} The reason I thought you were worth a quick look is that ${lowerFirstWord(getWhyNow(p))} If it is useful, we can keep it simple and review one disease-specific use case plus a low-friction pilot idea next week.`;
 }
 
 function buildMeetingScriptLocal(p, tone) {
@@ -3113,21 +2998,22 @@ function buildMeetingScriptLocal(p, tone) {
   const last = getLatestInteraction(p);
   const products = getRelevantProducts(p);
   const opener = last
-    ? `Last time we spoke, you flagged ${last.note.slice(0, 58).replace(/"/g, "").trim().replace(/[,:;]?\s*$/, "")}.`
-    : `I wanted to make this relevant quickly for your ${p.top_cancer_types[0].toLowerCase()} patients.`;
+    ? buildPitchOpener(last)
+    : `I wanted to make this relevant quickly for your ${lowerCommonWords(p.top_cancer_types[0])} patients.`;
   const metricLine = isHemeProvider(p)
     ? `Tempus can streamline hematologic ordering and use xR when fusion or splice biology matters.`
     : products.includes("xF")
     ? `Tempus can start with xF from blood, then expand to xT or xR when you need broader DNA or RNA detail.`
     : `Tempus can lead with xT CDx and add xR when RNA fusion biology matters.`;
-  const ask = (playbook.nextBestAction || "set up a brief follow-up").replace(/\.$/, "");
+  const ask = lowerFirstWord(withoutTrailingPeriod(playbook.nextBestAction || "set up a brief follow-up"));
+  const whyNow = lowerFirstWord(playbook.whyNow);
   if (tone === "Conversational / Relationship") {
-    return `${opener} I think this matters now because ${playbook.whyNow.toLowerCase()} ${metricLine} If it would help, we can ${ask.toLowerCase()}.`;
+    return `${opener} I think this matters now because ${whyNow} ${metricLine} If it would help, we can ${ask}.`;
   }
   if (tone === "Direct / Business Case") {
-    return `${opener} You still have ${p.competitor_volume} tests a month with ${p.primary_competitor}, so this is a real conversion opportunity. ${metricLine} The goal today is simple: ${playbook.meetingObjective.toLowerCase()}.`;
+    return `${opener} You still have ${p.competitor_volume} tests a month with ${p.primary_competitor}, so this is a real conversion opportunity. ${metricLine} The goal today is simple: ${lowerFirstWord(withoutTrailingPeriod(playbook.meetingObjective))}.`;
   }
-  return `${opener} The reason I am bringing Tempus up now is that ${playbook.whyNow.toLowerCase()} ${metricLine} Would it be worth a short follow-up so we can ${ask.toLowerCase()}?`;
+  return `${opener} The reason I am bringing Tempus up now is that ${whyNow} ${metricLine} Would it be worth a short follow-up so we can ${ask}?`;
 }
 
 function buildWeekPlanLocal() {
@@ -3138,15 +3024,23 @@ function buildWeekPlanLocal() {
     buckets[provider.hospital_system].push(provider);
   });
   const systems = Object.values(buckets).sort((a, b) => b[0].score - a[0].score);
+  // At most two same-system visits per day; each provider is scheduled once.
+  const visitDays = systems.flatMap(cluster => {
+    const chunks = [];
+    for (let index = 0; index < cluster.length; index += 2) chunks.push(cluster.slice(index, index + 2));
+    return chunks;
+  });
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  return days.map((day, index) => {
-    const cluster = systems[index % systems.length] || [];
-    const visits = cluster.slice(0, 2);
+  const plan = days.map((day, index) => {
+    const visits = visitDays[index] || [];
     const visitLine = visits.length
       ? visits.map(provider => `**${provider.name}** (${provider.hospital_system}) - ${provider.playbook.nextBestAction}`).join("\n")
       : "Follow-up block for open pilots and internal coordination.";
     return `**${day}**\n${visitLine}\nAfternoon: follow-up calls, emails, and prep for the next tumor board or pilot checkpoint.`;
-  }).join("\n\n");
+  });
+  const unscheduled = visitDays.slice(days.length).flat();
+  if (unscheduled.length) plan.push(`**Not scheduled this week**\n${unscheduled.map(provider => provider.name).join(", ")}`);
+  return plan.join("\n\n");
 }
 
 function generatePriorityRationale(p) {
@@ -3430,8 +3324,7 @@ function exportPrepSheet() {
   getSourceIdsForProvider(p).forEach(id => {
     if (SOURCE_LIBRARY[id]) lines.push(`  - ${SOURCE_LIBRARY[id].label}: ${SOURCE_LIBRARY[id].detail}`);
   });
-  navigator.clipboard.writeText(lines.join("\n"));
-  showToast("Prep sheet copied to clipboard");
+  copyTextValue(lines.join("\n"), "Prep sheet copied to clipboard");
 }
 
 function showToast(message) {
@@ -3447,8 +3340,9 @@ window.addEventListener("resize", hideAllScoreSummaryPopovers);
 // Keyboard navigation
 
 document.addEventListener("keydown", e => {
-  // Skip if typing in input/textarea/select
+  // Skip if typing in input/textarea/select, and leave browser shortcuts (Ctrl/Cmd/Alt) alone
   if (e.target.matches("input,textarea,select")) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
   // Handle modal escape
   if (document.getElementById("modal-overlay").classList.contains("show")) {
     if (e.key === "Escape") hideModal();
@@ -3495,16 +3389,13 @@ async function init() {
   renderApp();
   applyTheme(currentTheme);
   applyPanelWidth(layoutState.leftPanelWidth);
-  applyRightTopHeight(layoutState.rightTopHeight);
   setupPanelResizer();
-  setupRightVerticalResizer();
   rankedProviders = computePriorityScores();
   renderSidebarTop();
   renderProviderList();
   updateApiStatus();
   window.addEventListener("resize", debounce(() => {
     applyPanelWidth(layoutState.leftPanelWidth);
-    applyRightTopHeight(layoutState.rightTopHeight);
   }, 80));
   if (rankedProviders.length > 0) selectProvider(rankedProviders[0].id, { resetTab:true });
 }

@@ -1,27 +1,18 @@
-# AI Prompt Pack
+# Prompt Pack
 
-This folder externalizes the AI generation assets so the prototype's GenAI behavior is inspectable instead of hidden inside `index.html`.
+These markdown files are the prompts the optional Claude connection uses. Demo Mode does not send them anywhere; it uses local draft templates in `index.html`.
 
-## What Lives Here
+At startup `index.html` fetches the files listed in `AI_ASSET_FILES`. A file that is missing, empty, or lacks one of its required `{{tokens}}` is replaced by the shorter embedded fallback in `DEFAULT_AI_ASSETS`.
 
-- `system_prompt.md`: global role, tone, and response behavior
-- `grounding_rules.md`: grounding, citation, and stakeholder-adaptation guardrails
-- `priority_rationale_prompt.md`: task template for the ranked-provider explanation
-- `objection_response_prompt.md`: task template for objection handling and follow-up drafts
-- `intro_script_prompt.md`: task template for a first-touch introduction
-- `meeting_pitch_prompt.md`: task template for the 30-second pitch
-- `week_plan_prompt.md`: task template for weekly route planning
-- `eval_checklist.md`: lightweight self-check rubric used as part of the system prompt
+| Role | File | Required tokens |
+| --- | --- | --- |
+| System prompt | [`prompts/system.md`](../prompts/system.md) | - |
+| Grounding rules (appended to system) | [`grounding_rules.md`](grounding_rules.md) | - |
+| Self-check (appended to system) | [`evals/output-checklist.md`](../evals/output-checklist.md) | - |
+| Prep-brief summary | [`priority_rationale_prompt.md`](priority_rationale_prompt.md) | provider_name, provider_title, provider_institution, stakeholder_type, priority_score, why_now, next_best_action |
+| Objection response | [`prompts/objection-handler.md`](../prompts/objection-handler.md) | provider_name, stakeholder_type, crm_note, objections, next_step |
+| First-touch intro | [`intro_script_prompt.md`](intro_script_prompt.md) | provider_name, provider_specialty, provider_institution, why_now, research_context, competitor |
+| 30-second pitch | [`prompts/meeting-script.md`](../prompts/meeting-script.md) | provider_name, provider_specialty, provider_institution, stakeholder_type, recent_crm_context, why_now, tone |
+| Week plan | [`week_plan_prompt.md`](week_plan_prompt.md) | territory_name, rep_name, top_accounts |
 
-## How The Prototype Uses These Files
-
-At startup, the app tries to load the markdown files in this folder just like it loads the CSV, KB markdown, and CRM text inputs in `data/`.
-
-If the files are available, the app uses them directly for generation.
-If they are unavailable, the app falls back to embedded prompt strings so the prototype still works.
-
-## Why This Helps The Case Study
-
-- It makes the prompt architecture visible and reviewable.
-- It shows separation between deterministic ranking logic and generative synthesis.
-- It gives the slide deck concrete artifacts to reference for grounding, guardrails, and evaluation thinking.
+`node --test` and `scripts/validate_ai_assets.ps1` check that each file exists and contains its tokens.
