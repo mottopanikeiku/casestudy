@@ -1327,10 +1327,7 @@ function parseMarketIntelligenceCsv(text) {
 }
 
 function parseCrmNotesText(text) {
-  return text
-    .split(/\n={3,}\n/g)
-    .map(block => block.trim())
-    .filter(Boolean)
+  return splitCrmBlocks(text)
     .map(block => {
       const lines = block.split(/\r?\n/);
       const providerId = lines.shift()?.replace(/^provider_id:\s*/i, "").trim() || "";
@@ -1384,7 +1381,7 @@ function getMissingPromptTokens(template, requiredTokens = []) {
 
 function splitCrmBlocks(text) {
   return String(text || "")
-    .split(/\n={3,}\n/g)
+    .split(/\r?\n={3,}\r?\n/g)
     .map(block => block.trim())
     .filter(Boolean);
 }

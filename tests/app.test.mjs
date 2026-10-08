@@ -37,6 +37,15 @@ test("CRM notes parse into dated interactions with tags and next steps", () => {
   assert.match(first.note, /^Met at ASTRO\./);
 });
 
+test("CRM notes with Windows line endings parse the same as LF", () => {
+  const crlf = crmText.replace(/\r?\n/g, "\r\n");
+  assert.deepEqual(app.parseCrmNotesText(crlf), app.parseCrmNotesText(crmText));
+  const market = app.parseMarketIntelligenceCsv(marketText);
+  const validation = app.validateCrmInput(crlf, app.parseCrmNotesText(crlf), new Set(market.map(provider => provider.id)));
+  assert.deepEqual([...validation.malformedBlockIds], []);
+  assert.equal(validation.providerCount, 10);
+});
+
 test("committed data files pass the in-app validators", () => {
   const market = app.parseMarketIntelligenceCsv(marketText);
   const crm = app.parseCrmNotesText(crmText);
