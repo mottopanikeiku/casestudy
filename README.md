@@ -26,7 +26,19 @@ nice -n 19 python3 -m http.server 8080
 
 Open `http://localhost:8080` in a browser. Stay in **Demo Mode** to use the ranking and drafts without credentials or paid compute. A CPU-only laptop with Python 3 and a modern browser is sufficient; no GPU or model download is needed. Serving the demo has no paid-service cost. Fonts and branding load from public websites.
 
-The optional Claude connection is not needed to reproduce the demo and can incur API charges. [`api/claude.js`](api/claude.js) reads a server-side `ANTHROPIC_API_KEY`; local manual key entry is also supported. Neither path is part of the free reproduction instructions.
+The optional Claude connection is not needed to reproduce the demo and can incur API charges. [`api/claude.js`](api/claude.js) reads a server-side `ANTHROPIC_API_KEY` (and optional `CLAUDE_MODEL`) and caps responses at 1,024 tokens; local manual key entry is also supported. Neither path is part of the free reproduction instructions.
+
+## Checks
+
+With Node 22 (no packages to install) and PowerShell 7:
+
+```sh
+node --test                                # parsers, validators, ranking, week plan, prompt tokens, API proxy
+pwsh scripts/validate_local_inputs.ps1     # data files: columns, numbers, CRM dates and IDs, KB citations
+pwsh scripts/validate_ai_assets.ps1        # prompt files and their {{tokens}}
+```
+
+CI runs all three on pushes to `main` and on pull requests.
 
 ## Limitations
 
