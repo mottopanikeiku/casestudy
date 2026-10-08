@@ -2817,10 +2817,7 @@ async function streamClaudeViaProxy(payload, targetEl) {
   const response = await fetch("/api/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      anthropic_version: CONFIG.apiVersion,
-      ...payload
-    }),
+    body: JSON.stringify(payload),
     signal: streamController.signal
   });
   return readClaudeStreamResponse(response, targetEl);

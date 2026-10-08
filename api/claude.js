@@ -1,7 +1,15 @@
 const { Readable } = require("node:stream");
 
+// The model, API version, and token cap are fixed on the server so a caller
+// cannot spend the server key on a different model or an unbounded response.
 const DEFAULT_MODEL = process.env.CLAUDE_MODEL || "claude-sonnet-4-20250514";
 const DEFAULT_API_VERSION = "2023-06-01";
+const MAX_TOKENS = 1024;
+
+function clampNumber(value, min, max, fallback) {
+  const number = Number(value);
+  return Number.isFinite(number) ? Math.min(max, Math.max(min, number)) : fallback;
+}
 
 function getStatusPayload() {
   const hasKey = Boolean(process.env.ANTHROPIC_API_KEY);
@@ -51,12 +59,12 @@ module.exports = async function handler(req, res) {
   try {
     const body = normalizeBody(req);
     const upstreamPayload = {
-      model: body.model || DEFAULT_MODEL,
-      max_tokens: Number(body.max_tokens) || 1024,
+      model: DEFAULT_MODEL,
+      max_tokens: Math.round(clampNumber(body.max_tokens, 1, MAX_TOKENS, MAX_TOKENS)),
       system: String(body.system || ""),
       messages: Array.isArray(body.messages) ? body.messages : [],
       stream: true,
-      temperature: typeof body.temperature === "number" ? body.temperature : 0.5
+      temperature: typeof body.temperature === "number" ? clampNumber(body.temperature, 0, 1, 0.5) : 0.5
     };
 
     const upstreamResponse = await fetch("https://api.anthropic.com/v1/messages", {
@@ -64,7 +72,7 @@ module.exports = async function handler(req, res) {
       headers: {
         "Content-Type": "application/json",
         "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": body.anthropic_version || DEFAULT_API_VERSION
+        "anthropic-version": DEFAULT_API_VERSION
       },
       body: JSON.stringify(upstreamPayload)
     });
