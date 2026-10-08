@@ -3295,8 +3295,9 @@ window.addEventListener("resize", hideAllScoreSummaryPopovers);
 // Keyboard navigation
 
 document.addEventListener("keydown", e => {
-  // Skip if typing in input/textarea/select
+  // Skip if typing in input/textarea/select, and leave browser shortcuts (Ctrl/Cmd/Alt) alone
   if (e.target.matches("input,textarea,select")) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
   // Handle modal escape
   if (document.getElementById("modal-overlay").classList.contains("show")) {
     if (e.key === "Escape") hideModal();
